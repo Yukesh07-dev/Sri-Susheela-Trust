@@ -26,13 +26,25 @@ export const GalleryPage: React.FC = () => {
 
   return (
     <div className="py-4">
-      {/* Banner */}
-      <div className="bg-gradient-sst-red text-white py-5 px-3 mb-5 text-center position-relative">
+      {/* High-Contrast Luxury Dark Gold Header Banner */}
+      <div
+        className="py-5 px-3 mb-5 text-center position-relative shadow-md"
+        style={{
+          background: 'linear-gradient(135deg, #1A0F0A 0%, #3D1212 50%, #200D0D 100%)',
+          borderBottom: '3px solid #D4AF37',
+        }}
+      >
         <div className="container-fluid max-w-7xl">
-          <span className="badge badge-gold mb-2 text-uppercase tracking-wider">Photo & Video Archive</span>
-          <h1 className="display-4 font-heading fw-bold text-white mb-3">Service Gallery</h1>
-          <p className="lead text-light opacity-90 max-w-2xl mx-auto fs-6">
-            Witness our daily food service, educational classes, medical camps, and elder care home activities.
+          <span className={`badge badge-gold mb-2 text-uppercase tracking-wider ${isTamil ? 'font-tamil' : ''}`}>
+            {isTamil ? 'புகைப்படத் தொகுப்பு' : 'Photo Archive'}
+          </span>
+          <h1 className={`display-4 fw-bold text-gradient-gold mb-3 ${isTamil ? 'font-tamil' : 'font-heading'}`}>
+            {isTamil ? 'சேவைப் புகைப்படங்கள் & வீடியோக்கள்' : 'Service Gallery'}
+          </h1>
+          <p className={`lead text-light opacity-90 max-w-2xl mx-auto fs-6 ${isTamil ? 'font-tamil' : ''}`}>
+            {isTamil
+              ? 'எங்கள் அன்னதானம், கல்விக் கூடங்கள், இலவச மருத்துவ முகாம்கள் மற்றும் சேவை நிகழ்வுகளின் நேரடித் தொகுப்பு.'
+              : 'Witness our daily food service, educational classes, medical camps, and elder care home activities.'}
           </p>
         </div>
       </div>

@@ -4,13 +4,11 @@ import { Navbar } from './Navbar';
 import { Footer } from './Footer';
 import { SplashScreen } from '../components/common/SplashScreen';
 import { LanguageModal } from '../components/common/LanguageModal';
-import { DonateModal } from '../components/common/DonateModal';
 import { ScrollToTop } from '../components/common/ScrollToTop';
 
 export const RootLayout: React.FC = () => {
   const [showSplash, setShowSplash] = useState(true);
   const [showLangModal, setShowLangModal] = useState(false);
-  const [isDonateOpen, setIsDonateOpen] = useState(false);
 
   const handleSplashFinish = () => {
     setShowSplash(false);
@@ -24,24 +22,18 @@ export const RootLayout: React.FC = () => {
       {showSplash && <SplashScreen onFinish={handleSplashFinish} />}
 
       {/* Main Navbar */}
-      <Navbar
-        onOpenDonate={() => setIsDonateOpen(true)}
-        onOpenLanguageModal={() => setShowLangModal(true)}
-      />
+      <Navbar />
 
-      {/* Page Content */}
-      <main className="flex-grow-1">
-        <Outlet context={{ onOpenDonate: () => setIsDonateOpen(true) }} />
+      {/* Page Content with top padding offset for Fixed Navbar */}
+      <main className="flex-grow-1" style={{ paddingTop: '65px' }}>
+        <Outlet />
       </main>
 
       {/* Main Footer */}
-      <Footer onOpenDonate={() => setIsDonateOpen(true)} />
+      <Footer />
 
       {/* Common Floating Actions */}
       <ScrollToTop />
-
-      {/* Global Donate Modal */}
-      <DonateModal isOpen={isDonateOpen} onClose={() => setIsDonateOpen(false)} />
 
       {/* Post-Splash Language Selection Modal Card */}
       <LanguageModal isOpen={showLangModal} onClose={() => setShowLangModal(false)} />

@@ -6,7 +6,7 @@ interface SplashScreenProps {
   minDisplayTime?: number;
 }
 
-export const SplashScreen: React.FC<SplashScreenProps> = ({ onFinish, minDisplayTime = 2000 }) => {
+export const SplashScreen: React.FC<SplashScreenProps> = ({ onFinish, minDisplayTime = 4500 }) => {
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
@@ -92,12 +92,12 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onFinish, minDisplay
               People Welfare Group • Nurturing Hope
             </motion.p>
 
-            {/* Smooth Fast Loading Bar */}
+            {/* Smooth Loading Bar */}
             <div className="mx-auto" style={{ width: '200px', height: '4px', background: 'rgba(255, 255, 255, 0.15)', borderRadius: '10px', overflow: 'hidden' }}>
               <motion.div
                 initial={{ width: '0%' }}
                 animate={{ width: '100%' }}
-                transition={{ duration: 1.6, ease: 'easeInOut' }}
+                transition={{ duration: Math.max(0.5, (minDisplayTime - 300) / 1000), ease: 'easeInOut' }}
                 style={{ height: '100%', background: 'linear-gradient(90deg, #FFD700, #F59E0B, #B91C1C)' }}
               />
             </div>

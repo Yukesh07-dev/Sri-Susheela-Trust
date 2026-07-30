@@ -11,14 +11,13 @@ interface LanguageModalProps {
 
 export const LanguageModal: React.FC<LanguageModalProps> = ({ isOpen, onClose }) => {
   const { i18n } = useTranslation();
-  const [selectedLang, setSelectedLang] = useState<'en' | 'ta'>(
-    (i18n.language as 'en' | 'ta') || 'en'
-  );
+  const [selectedLang, setSelectedLang] = useState<'en' | 'ta'>('ta');
 
   if (!isOpen) return null;
 
   const handleConfirm = () => {
     i18n.changeLanguage(selectedLang);
+    localStorage.setItem('i18nextLng', selectedLang);
     localStorage.setItem('sst_lang_selected', 'true');
     onClose();
   };

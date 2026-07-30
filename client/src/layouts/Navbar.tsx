@@ -4,16 +4,14 @@ import { useTranslation } from 'react-i18next';
 import { Heart, Globe, Menu, X, PhoneCall } from 'lucide-react';
 import { TRUST_INFO } from '../constants';
 
-interface NavbarProps {
-  onOpenDonate: () => void;
-  onOpenLanguageModal?: () => void;
-}
+interface NavbarProps {}
 
-export const Navbar: React.FC<NavbarProps> = ({ onOpenDonate, onOpenLanguageModal }) => {
+export const Navbar: React.FC<NavbarProps> = () => {
   const { t, i18n } = useTranslation();
   const location = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const isTamil = i18n.language === 'ta';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -28,12 +26,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenDonate, onOpenLanguageModa
   }, [location]);
 
   const toggleLanguage = () => {
-    if (onOpenLanguageModal) {
-      onOpenLanguageModal();
-    } else {
-      const nextLang = i18n.language === 'ta' ? 'en' : 'ta';
-      i18n.changeLanguage(nextLang);
-    }
+    const nextLang = i18n.language === 'ta' ? 'en' : 'ta';
+    i18n.changeLanguage(nextLang);
+    localStorage.setItem('i18nextLng', nextLang);
+    localStorage.setItem('sst_lang_selected', 'true');
   };
 
   const navLinks = [
@@ -50,12 +46,24 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenDonate, onOpenLanguageModa
 
   return (
     <>
-      {/* Floating Sticky Glass Navbar */}
+      {/* Fixed Top Glass Navbar with Blurry Backdrop Effect & Gold Top Accent */}
       <nav
-        className={`sticky-top w-100 transition-all duration-300 ${
-          isScrolled ? 'glass-nav-gold shadow-sm py-2' : 'bg-white py-2.5 border-bottom'
-        }`}
-        style={{ zIndex: 1040 }}
+        className="fixed-top w-100 py-2 transition-all duration-300 shadow-sm"
+        style={{
+          zIndex: 1050,
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          background: isScrolled
+            ? 'rgba(255, 253, 240, 0.95)'
+            : 'rgba(255, 253, 240, 0.88)',
+          backdropFilter: 'blur(16px) saturate(180%)',
+          WebkitBackdropFilter: 'blur(16px) saturate(180%)',
+          borderTop: '2.5px solid #D4AF37',
+          borderBottom: '1px solid rgba(212, 175, 55, 0.25)',
+          boxShadow: isScrolled ? '0 10px 28px rgba(18, 13, 8, 0.08)' : '0 2px 10px rgba(0, 0, 0, 0.03)',
+        }}
       >
         <div className="container-fluid px-3 px-lg-4 d-flex align-items-center justify-content-between">
           {/* Logo & Official Emblem */}
@@ -63,70 +71,95 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenDonate, onOpenLanguageModa
             <img
               src="/assets/images/logo.jpg"
               alt="Sri Susheela Trust Logo"
-              className="rounded-circle shadow-sm p-0.5 bg-white border border-warning"
-              style={{ width: '48px', height: '48px' }}
+              className="rounded-circle p-0.5 bg-white border border-warning"
+              style={{
+                width: '44px',
+                height: '44px',
+                border: '1.5px solid #FFD700',
+                boxShadow: '0 0 10px rgba(212, 175, 55, 0.25)',
+              }}
             />
             <div>
-              <h5 className="fw-bold text-navy mb-0 font-heading leading-none fs-5">
-                SRI SUSHEELA TRUST
+              <h5
+                className={`fw-bold text-navy mb-0 leading-none ${
+                  isTamil ? 'font-tamil fs-6' : 'font-heading fs-6'
+                }`}
+                style={{ letterSpacing: isTamil ? '0.3px' : '0.8px' }}
+              >
+                {isTamil ? 'ஸ்ரீ சுசீலா அறக்கட்டளை' : 'SRI SUSHEELA TRUST'}
               </h5>
-              <span className="text-gradient-gold small fw-bold text-uppercase tracking-wider d-block" style={{ fontSize: '0.68rem', letterSpacing: '0.8px' }}>
-                PEOPLE WELFARE GROUP
+              <span
+                className={`text-gradient-gold small fw-bold text-uppercase d-block mt-0.5 ${
+                  isTamil ? 'font-tamil' : ''
+                }`}
+                style={{ fontSize: '0.65rem', letterSpacing: isTamil ? '0.3px' : '0.8px' }}
+              >
+                {isTamil ? 'மக்கள் நலக் குழு' : 'PEOPLE WELFARE GROUP'}
               </span>
             </div>
           </Link>
 
-          {/* Desktop Navigation Links */}
-          <div className="d-none d-xl-flex align-items-center gap-1 bg-light rounded-pill px-3 py-1 border border-warning border-opacity-30">
-            {navLinks.map((link) => (
-              <NavLink
-                key={link.path}
-                to={link.path}
-                className={({ isActive }) =>
-                  `nav-link px-3 py-1.5 rounded-pill fw-bold transition-all ${
-                    isActive
-                      ? 'bg-warning text-dark shadow-sm'
-                      : 'text-navy hover-text-warning'
-                  }`
-                }
-                style={{ fontSize: '0.88rem' }}
-              >
-                {link.label}
-              </NavLink>
+          {/* Desktop Navigation Links with Vertical Dividers */}
+          <div className="d-none d-xl-flex align-items-center gap-1">
+            {navLinks.map((link, idx) => (
+              <React.Fragment key={link.path}>
+                <NavLink
+                  to={link.path}
+                  className={({ isActive }) =>
+                    `nav-link px-3 py-1.5 rounded-3 fw-bold transition-all ${
+                      isTamil ? 'font-tamil' : ''
+                    } ${
+                      isActive
+                        ? 'bg-warning text-dark shadow-xs'
+                        : 'text-navy hover-text-warning'
+                    }`
+                  }
+                  style={{ fontSize: isTamil ? '0.88rem' : '0.9rem', whiteSpace: 'nowrap' }}
+                >
+                  {link.label}
+                </NavLink>
+
+                {/* Subtle Vertical Divider Line between items */}
+                {idx < navLinks.length - 1 && (
+                  <span
+                    className="mx-1 opacity-40 select-none pointer-events-none"
+                    style={{ fontSize: '0.82rem', fontWeight: 300, color: '#D4AF37' }}
+                  >
+                    |
+                  </span>
+                )}
+              </React.Fragment>
             ))}
           </div>
 
-          {/* Action Area (Donate + Language Toggle + Mobile Toggle) */}
+          {/* Action Area (Language Toggle + Mobile Toggle) */}
           <div className="d-flex align-items-center gap-2">
-            {/* Language Switcher */}
+            {/* Styled Language Switcher Button */}
             <button
               onClick={toggleLanguage}
-              className="btn btn-sm btn-outline-warning rounded-pill px-2.5 py-1.5 d-inline-flex align-items-center gap-1 fw-bold text-dark border-warning"
-              style={{ fontSize: '0.82rem' }}
-              title="Select Language"
+              className="btn rounded-3 px-3 py-1.5 d-inline-flex align-items-center gap-1.5 fw-bold text-navy shadow-xs transition-all hover-scale"
+              style={{
+                background: 'linear-gradient(135deg, #FFFDF5 0%, #FEF08A 100%)',
+                border: '1.5px solid #D4AF37',
+                fontSize: '0.84rem',
+                boxShadow: '0 2px 8px rgba(212, 175, 55, 0.22)',
+              }}
+              title="Select Language / மொழியை மாற்றுக"
             >
-              <Globe size={15} className="text-warning" />
-              <span>{i18n.language === 'ta' ? 'EN' : 'தமிழ்'}</span>
-            </button>
-
-            {/* Donate CTA */}
-            <button
-              onClick={onOpenDonate}
-              className="btn btn-sst-gold rounded-pill px-3 py-2 d-inline-flex align-items-center gap-1.5 shadow-sm"
-            >
-              <Heart size={16} fill="#120D08" />
-              <span className="d-none d-sm-inline">{t('nav.donate')}</span>
-              <span className="d-inline d-sm-none">Donate</span>
+              <Globe size={15} className="text-warning fill-warning" />
+              <span className={isTamil ? 'font-tamil' : ''}>
+                {i18n.language === 'ta' ? 'EN' : 'தமிழ்'}
+              </span>
             </button>
 
             {/* Mobile Menu Toggle Button */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="btn btn-light rounded-circle p-2 d-xl-none border d-flex align-items-center justify-content-center ms-1"
-              style={{ width: '42px', height: '42px' }}
+              className="btn btn-light rounded-circle p-1.5 d-xl-none border d-flex align-items-center justify-content-center ms-1 shadow-xs"
+              style={{ width: '38px', height: '38px' }}
               aria-label="Toggle Navigation Menu"
             >
-              {isMobileMenuOpen ? <X size={22} className="text-danger" /> : <Menu size={22} className="text-navy" />}
+              {isMobileMenuOpen ? <X size={20} className="text-danger" /> : <Menu size={20} className="text-navy" />}
             </button>
           </div>
         </div>
@@ -147,8 +180,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenDonate, onOpenLanguageModa
             {/* Drawer Header */}
             <div className="d-flex align-items-center justify-content-between pb-3 border-bottom mb-3">
               <div className="d-flex align-items-center gap-2">
-                <img src="/assets/images/logo.jpg" alt="Logo" className="rounded-circle" style={{ width: '36px', height: '36px' }} />
-                <span className="fw-bold text-navy font-heading">Menu</span>
+                <img src="/assets/images/logo.jpg" alt="Logo" className="rounded-circle border border-warning" style={{ width: '36px', height: '36px' }} />
+                <span className={`fw-bold text-navy ${isTamil ? 'font-tamil' : 'font-heading'}`}>
+                  {isTamil ? 'பட்டி (Menu)' : 'Menu'}
+                </span>
               </div>
               <button
                 onClick={() => setIsMobileMenuOpen(false)}
@@ -176,24 +211,11 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenDonate, onOpenLanguageModa
             </div>
 
             {/* Drawer Footer Actions */}
-            <div className="pt-3 border-top mt-auto">
-              <button
-                onClick={() => {
-                  setIsMobileMenuOpen(false);
-                  onOpenDonate();
-                }}
-                className="btn btn-sst-gold w-100 py-2.5 justify-content-center mb-2"
-              >
-                <Heart size={18} fill="#120D08" />
-                {t('nav.donate')}
-              </button>
-
-              <div className="text-center small text-muted mt-2">
-                <a href={`tel:${TRUST_INFO.phonePrimary}`} className="text-decoration-none text-navy fw-semibold">
-                  <PhoneCall size={14} className="me-1 text-warning" />
-                  {TRUST_INFO.phonePrimary}
-                </a>
-              </div>
+            <div className="pt-3 border-top mt-auto text-center small text-muted">
+              <a href={`tel:${TRUST_INFO.phonePrimary}`} className="text-decoration-none text-navy fw-semibold">
+                <PhoneCall size={14} className="me-1 text-warning" />
+                {TRUST_INFO.phonePrimary}
+              </a>
             </div>
           </div>
         </div>

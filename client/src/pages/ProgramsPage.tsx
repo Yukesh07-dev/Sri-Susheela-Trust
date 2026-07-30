@@ -9,7 +9,6 @@ import { useOutletContext } from 'react-router-dom';
 export const ProgramsPage: React.FC = () => {
   const { t, i18n } = useTranslation();
   const isTamil = i18n.language === 'ta';
-  const context = useOutletContext<{ onOpenDonate: () => void }>();
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
 
   const categories = [
@@ -27,13 +26,25 @@ export const ProgramsPage: React.FC = () => {
 
   return (
     <div className="py-4">
-      {/* Banner */}
-      <div className="bg-gradient-sst-dark text-white py-5 px-3 mb-5 text-center position-relative">
+      {/* High-Contrast Luxury Dark Gold Header Banner */}
+      <div
+        className="py-5 px-3 mb-5 text-center position-relative shadow-md"
+        style={{
+          background: 'linear-gradient(135deg, #1A0F0A 0%, #3D1212 50%, #200D0D 100%)',
+          borderBottom: '3px solid #D4AF37',
+        }}
+      >
         <div className="container-fluid max-w-7xl">
-          <span className="badge badge-gold mb-2 text-uppercase tracking-wider">What We Do</span>
-          <h1 className="display-4 font-heading fw-bold text-gradient-gold mb-3">Programs & Social Initiatives</h1>
-          <p className="lead text-light opacity-90 max-w-2xl mx-auto fs-6">
-            Direct, measurable, and sustainable humanitarian interventions transforming lives across Tamil Nadu.
+          <span className={`badge badge-gold mb-2 text-uppercase tracking-wider ${isTamil ? 'font-tamil' : ''}`}>
+            {isTamil ? 'எங்கள் சேவைகள்' : 'What We Do'}
+          </span>
+          <h1 className={`display-4 fw-bold text-gradient-gold mb-3 ${isTamil ? 'font-tamil' : 'font-heading'}`}>
+            {isTamil ? 'திட்டங்கள் & சமுதாயப் பணிகள்' : 'Programs & Social Initiatives'}
+          </h1>
+          <p className={`lead text-light opacity-90 max-w-2xl mx-auto fs-6 ${isTamil ? 'font-tamil' : ''}`}>
+            {isTamil
+              ? 'தமிழ்நாடு முழுவதும் எளியோரின் வாழ்வை மாற்றியமைக்கும் நேரடி மற்றும் நிலையான சேவைத் திட்டங்கள்.'
+              : 'Direct, measurable, and sustainable humanitarian interventions transforming lives across Tamil Nadu.'}
           </p>
         </div>
       </div>
@@ -95,14 +106,6 @@ export const ProgramsPage: React.FC = () => {
                       </div>
                     ))}
                   </div>
-
-                  <button
-                    onClick={() => context?.onOpenDonate()}
-                    className="btn btn-sst-primary py-2.5 px-4 rounded-pill"
-                  >
-                    <Heart size={16} fill="#ffffff" />
-                    Sponsor This Initiative
-                  </button>
                 </div>
               </div>
             </motion.div>

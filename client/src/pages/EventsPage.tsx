@@ -25,13 +25,25 @@ export const EventsPage: React.FC = () => {
 
   return (
     <div className="py-4">
-      {/* Banner */}
-      <div className="bg-gradient-sst-dark text-white py-5 px-3 mb-5 text-center position-relative">
+      {/* High-Contrast Luxury Dark Gold Header Banner */}
+      <div
+        className="py-5 px-3 mb-5 text-center position-relative shadow-md"
+        style={{
+          background: 'linear-gradient(135deg, #1A0F0A 0%, #3D1212 50%, #200D0D 100%)',
+          borderBottom: '3px solid #D4AF37',
+        }}
+      >
         <div className="container-fluid max-w-7xl">
-          <span className="badge badge-gold mb-2 text-uppercase tracking-wider">Gatherings & Drives</span>
-          <h1 className="display-4 font-heading fw-bold text-gradient-gold mb-3">Events & Campaigns</h1>
-          <p className="lead text-light opacity-90 max-w-2xl mx-auto fs-6">
-            Join our free health camps, food drives, and educational distribution ceremonies.
+          <span className={`badge badge-gold mb-2 text-uppercase tracking-wider ${isTamil ? 'font-tamil' : ''}`}>
+            {isTamil ? 'நிகழ்வுகள் & முகாம்கள்' : 'Community Gatherings'}
+          </span>
+          <h1 className={`display-4 fw-bold text-gradient-gold mb-3 ${isTamil ? 'font-tamil' : 'font-heading'}`}>
+            {isTamil ? 'வரவிருக்கும் நிகழ்வுகள் & சிறப்பு முகாம்கள்' : 'Events & Field Operations'}
+          </h1>
+          <p className={`lead text-light opacity-90 max-w-2xl mx-auto fs-6 ${isTamil ? 'font-tamil' : ''}`}>
+            {isTamil
+              ? 'எங்கள் கள நிகழ்வுகளில் பங்கேற்று சமுதாயத் தொண்டில் இணையுங்கள்.'
+              : 'Join our field drives, medical camps, and food distribution programs.'}
           </p>
         </div>
       </div>

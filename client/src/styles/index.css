@@ -166,6 +166,34 @@ html[lang="ta"] span {
   box-shadow: 0 16px 32px rgba(139, 0, 0, 0.45);
 }
 
+.btn-sst-primary {
+  background: linear-gradient(135deg, #7A1C1C 0%, #B91C1C 50%, #521212 100%);
+  color: #FFFFFF !important;
+  border: 2px solid #FFD700;
+  border-radius: 50rem;
+  padding: 0.85rem 2rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  box-shadow: 0 10px 25px rgba(185, 28, 28, 0.4), 0 0 15px rgba(255, 215, 0, 0.25);
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+}
+
+.btn-sst-primary:hover {
+  background: linear-gradient(135deg, #B91C1C 0%, #D4AF37 50%, #7A1C1C 100%);
+  color: #FFFFFF !important;
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 16px 35px rgba(185, 28, 28, 0.55), 0 0 25px rgba(255, 215, 0, 0.45);
+}
+
+.input-dark-placeholder::placeholder {
+  color: #D1D5DB !important;
+  opacity: 0.9 !important;
+}
+
 .btn-sst-outline-gold {
   background: transparent;
   color: var(--sst-gold-dark) !important;

@@ -13,15 +13,13 @@ import { PartnersSection } from '../sections/Partners';
 import { ContactSection } from '../sections/Contact';
 
 export const HomePage: React.FC = () => {
-  const context = useOutletContext<{ onOpenDonate: () => void }>();
-
   return (
     <>
-      <Hero onOpenDonate={context?.onOpenDonate} />
+      <Hero />
       <AboutSection />
       <MissionSection />
       <VisionSection />
-      <ActivitiesSection onOpenDonate={context?.onOpenDonate} />
+      <ActivitiesSection />
       <ImpactStatisticsSection />
       <GallerySection />
       <TimelineSection />

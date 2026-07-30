@@ -7,8 +7,8 @@ import { FileText, Download, TrendingUp, Heart } from 'lucide-react';
 import { useOutletContext } from 'react-router-dom';
 
 export const ImpactPage: React.FC = () => {
-  const { t } = useTranslation();
-  const context = useOutletContext<{ onOpenDonate: () => void }>();
+  const { t, i18n } = useTranslation();
+  const isTamil = i18n.language === 'ta';
 
   const annualReports = [
     { year: '2025-2026', size: '2.4 MB', title: 'Annual Financial & Audit Report 2026' },
@@ -18,13 +18,25 @@ export const ImpactPage: React.FC = () => {
 
   return (
     <div className="py-4">
-      {/* Banner */}
-      <div className="bg-gradient-sst-red text-white py-5 px-3 mb-5 text-center position-relative">
+      {/* High-Contrast Luxury Dark Gold Header Banner */}
+      <div
+        className="py-5 px-3 mb-5 text-center position-relative shadow-md"
+        style={{
+          background: 'linear-gradient(135deg, #1A0F0A 0%, #3D1212 50%, #200D0D 100%)',
+          borderBottom: '3px solid #D4AF37',
+        }}
+      >
         <div className="container-fluid max-w-7xl">
-          <span className="badge badge-gold mb-2 text-uppercase tracking-wider">Social Impact</span>
-          <h1 className="display-4 font-heading fw-bold text-white mb-3">Our Measurable Difference</h1>
-          <p className="lead text-light opacity-90 max-w-2xl mx-auto fs-6">
-            Transparent reporting, audited financials, and real human transformations.
+          <span className={`badge badge-gold mb-2 text-uppercase tracking-wider ${isTamil ? 'font-tamil' : ''}`}>
+            {isTamil ? 'சமுதாயத் தாக்கம்' : 'Social Impact'}
+          </span>
+          <h1 className={`display-4 fw-bold text-gradient-gold mb-3 ${isTamil ? 'font-tamil' : 'font-heading'}`}>
+            {isTamil ? 'எங்கள் சாதனைகள் & அளவிடக்கூடிய மாற்றங்கள்' : 'Our Measurable Difference'}
+          </h1>
+          <p className={`lead text-light opacity-90 max-w-2xl mx-auto fs-6 ${isTamil ? 'font-tamil' : ''}`}>
+            {isTamil
+              ? 'வெளிப்படையான அறிக்கைகள், கணக்காய்வு செய்யப்பட்ட தகவல்கள் மற்றும் மனித வாழ்வு மாற்றங்கள்.'
+              : 'Transparent reporting, audited financials, and real human transformations.'}
           </p>
         </div>
       </div>
@@ -71,21 +83,6 @@ export const ImpactPage: React.FC = () => {
       </section>
 
       <TestimonialsSection />
-
-      {/* CTA Box */}
-      <section className="py-5 bg-sst-cream text-center">
-        <div className="container-fluid max-w-4xl px-3">
-          <div className="card glass-panel p-4 p-md-5 rounded-4 shadow-md">
-            <TrendingUp size={40} className="text-danger mx-auto mb-3" />
-            <h3 className="fw-bold text-navy font-heading mb-2">Be Part of Our Next Milestone</h3>
-            <p className="text-muted mb-4">Your recurring contribution ensures continuous meals and schooling for hundreds of needy individuals.</p>
-            <button onClick={() => context?.onOpenDonate()} className="btn btn-sst-primary py-3 px-5 rounded-pill mx-auto">
-              <Heart size={18} fill="#ffffff" />
-              Make a Impact Contribution Today
-            </button>
-          </div>
-        </div>
-      </section>
     </div>
   );
 };

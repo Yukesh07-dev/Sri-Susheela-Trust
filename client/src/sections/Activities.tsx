@@ -6,11 +6,7 @@ import { ProgramItem } from '../types';
 import { Utensils, GraduationCap, HeartHandshake, Stethoscope, Sparkles, CheckCircle2, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-interface ActivitiesProps {
-  onOpenDonate?: () => void;
-}
-
-export const ActivitiesSection: React.FC<ActivitiesProps> = () => {
+export const ActivitiesSection: React.FC = () => {
   const { t, i18n } = useTranslation();
   const isTamil = i18n.language === 'ta';
   const [selectedProgram, setSelectedProgram] = useState<ProgramItem | null>(null);

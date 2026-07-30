@@ -7,14 +7,15 @@ import { AboutSection } from '../sections/About';
 import { MissionSection } from '../sections/Mission';
 
 export const AboutPage: React.FC = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const isTamil = i18n.language === 'ta';
 
   const boardMembers = [
     {
-      name: 'Dr. Susheela Sundaram',
+      name: 'Iyappan R',
       role: 'Founder & Managing Trustee',
-      bio: 'Visionary philanthropist dedicated to hunger relief and rural education for over 25 years.',
-      image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80',
+      bio: 'Visionary founder dedicated to community welfare, education, healthcare, and senior care since 2021.',
+      image: '/assets/images/founders.png',
     },
     {
       name: 'R. K. Ramanathan, IAS (Retd)',
@@ -32,13 +33,25 @@ export const AboutPage: React.FC = () => {
 
   return (
     <div className="py-4">
-      {/* Banner */}
-      <div className="bg-gradient-sst-red text-white py-5 px-3 mb-5 text-center position-relative">
+      {/* High-Contrast Luxury Dark Gold Header Banner */}
+      <div
+        className="py-5 px-3 mb-5 text-center position-relative shadow-md"
+        style={{
+          background: 'linear-gradient(135deg, #1A0F0A 0%, #3D1212 50%, #200D0D 100%)',
+          borderBottom: '3px solid #D4AF37',
+        }}
+      >
         <div className="container-fluid max-w-7xl">
-          <span className="badge badge-gold mb-2 text-uppercase tracking-wider">About Sri Susheela Trust</span>
-          <h1 className="display-4 font-heading fw-bold text-white mb-3">Our Legacy & Mission</h1>
-          <p className="lead text-light opacity-90 max-w-2xl mx-auto fs-6">
-            Registered Non-Profit NGO dedicated to Annadhanam, Free Quality Education, Old Age Support, and Healthcare.
+          <span className={`badge badge-gold mb-2 text-uppercase tracking-wider ${isTamil ? 'font-tamil' : ''}`}>
+            {isTamil ? 'அறக்கட்டளை பற்றி' : 'About Sri Susheela Trust'}
+          </span>
+          <h1 className={`display-4 fw-bold text-gradient-gold mb-3 ${isTamil ? 'font-tamil' : 'font-heading'}`}>
+            {isTamil ? 'எங்கள் வரலாறு & லட்சியம்' : 'Our Legacy & Mission'}
+          </h1>
+          <p className={`lead text-light opacity-90 max-w-2xl mx-auto fs-6 ${isTamil ? 'font-tamil' : ''}`}>
+            {isTamil
+              ? 'அன்னதானம், இலவசக் கல்வி, முதியோர் நலன் மற்றும் மருத்துவச் சேவைகளில் அர்ப்பணிக்கப்பட்ட பதிவுபெற்ற தொண்டு நிறுவனம்.'
+              : 'Registered Non-Profit NGO dedicated to Annadhanam, Free Quality Education, Old Age Support, and Healthcare.'}
           </p>
         </div>
       </div>

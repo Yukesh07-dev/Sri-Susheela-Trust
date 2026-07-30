@@ -1,25 +1,24 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import LanguageDetector from 'i18next-browser-languagedetector';
 import { en } from './locales/en';
 import { ta } from './locales/ta';
 
+// Always default to Tamil ('ta') on reload unless explicitly set
+const savedLng = localStorage.getItem('i18nextLng');
+const initialLang = savedLng === 'en' ? 'en' : 'ta';
+
 i18n
-  .use(LanguageDetector)
   .use(initReactI18next)
   .init({
     resources: {
       en: { translation: en },
       ta: { translation: ta },
     },
-    fallbackLng: 'en',
+    lng: 'ta', // Force Tamil default
+    fallbackLng: 'ta',
     debug: false,
     interpolation: {
-      escapeValue: false, // React handles XSS
-    },
-    detection: {
-      order: ['localStorage', 'navigator'],
-      caches: ['localStorage'],
+      escapeValue: false,
     },
   });
 
@@ -33,12 +32,8 @@ i18n.on('languageChanged', (lng) => {
   }
 });
 
-// Set initial document attribute
-if (i18n.language === 'ta') {
-  document.documentElement.lang = 'ta';
-  document.body.classList.add('font-tamil');
-} else {
-  document.documentElement.lang = 'en';
-}
+// Set initial document attribute and body font class
+document.documentElement.lang = 'ta';
+document.body.classList.add('font-tamil');
 
 export default i18n;

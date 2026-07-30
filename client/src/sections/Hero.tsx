@@ -14,11 +14,9 @@ import {
 } from 'lucide-react';
 import { ChakraMotif } from '../components/common/ChakraMotif';
 
-interface HeroProps {
-  onOpenDonate?: () => void;
-}
+interface HeroProps { }
 
-export const Hero: React.FC<HeroProps> = ({ onOpenDonate }) => {
+export const Hero: React.FC<HeroProps> = () => {
   const { t, i18n } = useTranslation();
   const isTamil = i18n.language === 'ta';
 
@@ -91,13 +89,25 @@ export const Hero: React.FC<HeroProps> = ({ onOpenDonate }) => {
     <section
       className="position-relative overflow-hidden d-flex flex-column justify-content-between m-0"
       style={{
-        background: 'linear-gradient(135deg, #FFFDF0 0%, #FEF9C3 45%, #FEF08A 100%)',
-        minHeight: 'calc(100vh - 60px)',
-        paddingTop: '40px',
+        background: 'linear-gradient(135deg, #FFF9C4 0%, #FEF08A 45%, #FDE047 100%)',
+        minHeight: 'calc(100vh - 50px)',
+        paddingTop: '0px',
         paddingBottom: '0px',
         margin: 0,
       }}
     >
+      {/* Subtle Royal Sacred Geometric Mandala Mesh Pattern Overlay */}
+      <div
+        className="position-absolute top-0 start-0 w-100 h-100 pointer-events-none"
+        style={{
+          backgroundImage: `radial-gradient(rgba(212, 175, 55, 0.15) 1px, transparent 1px), radial-gradient(rgba(122, 28, 28, 0.08) 1px, transparent 1px)`,
+          backgroundSize: '36px 36px',
+          backgroundPosition: '0 0, 18px 18px',
+          opacity: 0.7,
+          zIndex: 0,
+        }}
+      />
+
       {/* 36 GPU-Accelerated Golden Sparks (Smooth 60fps) */}
       {goldenSparks.map((spark) => (
         <div
@@ -125,57 +135,66 @@ export const Hero: React.FC<HeroProps> = ({ onOpenDonate }) => {
       <div
         className="position-absolute top-50 end-0 translate-middle-y rounded-circle pointer-events-none"
         style={{
-          width: '850px',
-          height: '850px',
-          background: 'radial-gradient(circle, rgba(234, 179, 8, 0.35) 0%, rgba(253, 224, 71, 0.18) 50%, rgba(255, 255, 255, 0) 75%)',
-          filter: 'blur(90px)',
+          width: '800px',
+          height: '800px',
+          background: 'radial-gradient(circle, rgba(234, 179, 8, 0.35) 0%, rgba(253, 224, 71, 0.18) 50%, transparent 75%)',
+          filter: 'blur(75px)',
           zIndex: 0,
         }}
       />
 
-      <div className="container-fluid px-3 px-lg-5 max-w-7xl position-relative my-auto py-3" style={{ zIndex: 1 }}>
-        <div className="row align-items-center g-4 g-lg-5">
-          {/* Left Column */}
-          <div className="col-12 col-lg-5 text-center text-lg-start ps-lg-5 ps-xl-5">
+      <div className="container-fluid px-3 px-lg-5 max-w-7xl position-relative my-auto py-1" style={{ zIndex: 1, marginTop: '-5px' }}>
+        <div className="row align-items-stretch g-3 g-lg-4">
+          {/* Left Column Shifted Cleanly Rightward */}
+          <div className="col-12 col-lg-6 text-center text-lg-start ps-lg-4 ps-xl-5 d-flex flex-column justify-content-center">
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.85 }}
+              className="ms-lg-3"
             >
-              {/* Top Branding Emblem Header */}
-              <div className="d-flex align-items-center justify-content-center justify-content-lg-start gap-3 mb-4">
+              {/* Top Branding Emblem Header Shifted Upper with Tamil Spacing */}
+              <div
+                className="d-flex align-items-center justify-content-center justify-content-lg-start gap-2.5"
+                style={{ marginTop: '-16px', marginBottom: isTamil ? '1.2rem' : '0.6rem' }}
+              >
                 <img
                   src="/assets/images/logo.jpg"
                   alt="Sri Susheela Trust Logo"
-                  className="rounded-circle shadow-md p-1 bg-white border border-warning"
-                  style={{ width: '68px', height: '68px' }}
+                  className="rounded-circle shadow-md p-0.5 bg-white border border-warning"
+                  style={{ width: '54px', height: '54px', boxShadow: '0 0 16px rgba(212, 175, 55, 0.45)' }}
                 />
                 <div className="text-start">
                   <h4
-                    className="fw-bold mb-0 font-heading tracking-wide"
-                    style={{ color: '#7A1C1C', letterSpacing: '1px' }}
+                    className={`fw-bold mb-0 tracking-wide ${isTamil ? 'font-tamil fs-5' : 'font-heading fs-5'}`}
+                    style={{ color: '#7A1C1C', letterSpacing: '0.8px' }}
                   >
-                    SRI SUSHEELA TRUST
+                    {isTamil ? 'ஸ்ரீ சுசீலா அறக்கட்டளை' : 'SRI SUSHEELA TRUST'}
                   </h4>
                   <div
-                    className="small fw-semibold text-uppercase tracking-wider opacity-90"
-                    style={{ color: '#8C6826', fontSize: '0.72rem', letterSpacing: '1.2px' }}
+                    className={`small fw-bold text-uppercase tracking-wider opacity-90 ${isTamil ? 'font-tamil' : ''}`}
+                    style={{ color: '#8C6826', fontSize: '0.78rem', letterSpacing: '1px' }}
                   >
-                    — PEOPLE WELFARE GROUP —
+                    {isTamil ? '— மக்கள் நலக் குழு —' : '— PEOPLE WELFARE GROUP —'}
                   </div>
                   <div
-                    className="fw-bold text-uppercase"
-                    style={{ color: '#523E18', fontSize: '0.68rem', letterSpacing: '1px' }}
+                    className={`fw-bold text-uppercase ${isTamil ? 'font-tamil' : ''}`}
+                    style={{ color: '#523E18', fontSize: '0.7rem', letterSpacing: '0.9px' }}
                   >
-                    SERVING HUMANITY WITH COMPASSION
+                    {isTamil ? 'மனிதநேயத்துடன் அன்புடன் சேவையாற்றுகிறோம்' : 'SERVING HUMANITY WITH COMPASSION'}
                   </div>
                 </div>
               </div>
 
               {/* Main Headline */}
               <h1
-                className="font-heading fw-extrabold mb-3 leading-tight text-uppercase"
-                style={{ fontSize: isTamil ? '2.4rem' : '3.1rem', letterSpacing: '1.5px', lineHeight: '1.1' }}
+                className="font-heading fw-extrabold leading-tight text-uppercase"
+                style={{
+                  fontSize: isTamil ? '2.8rem' : '4.3rem',
+                  letterSpacing: '1.4px',
+                  lineHeight: isTamil ? '1.22' : '1.08',
+                  marginBottom: isTamil ? '1.2rem' : '0.6rem',
+                }}
               >
                 {isTamil ? (
                   <>
@@ -193,14 +212,14 @@ export const Hero: React.FC<HeroProps> = ({ onOpenDonate }) => {
               </h1>
 
               {/* Flourish Golden Heart Line Divider */}
-              <div className="d-flex align-items-center justify-content-center justify-content-lg-start gap-2 my-3.5 opacity-80">
-                <div style={{ height: '1.5px', width: '70px', background: 'linear-gradient(90deg, transparent, #8C6826)' }} />
-                <Heart size={14} fill="#8C6826" color="#8C6826" />
-                <div style={{ height: '1.5px', width: '70px', background: 'linear-gradient(90deg, #8C6826, transparent)' }} />
+              <div className={`d-flex align-items-center justify-content-center justify-content-lg-start gap-2 opacity-85 ${isTamil ? 'my-3' : 'my-2.5'}`}>
+                <div style={{ height: '1.5px', width: '75px', background: 'linear-gradient(90deg, transparent, #8C6826)' }} />
+                <Heart size={15} fill="#8C6826" color="#8C6826" />
+                <div style={{ height: '1.5px', width: '75px', background: 'linear-gradient(90deg, #8C6826, transparent)' }} />
               </div>
 
               {/* Description Paragraph */}
-              <p className="lead text-dark opacity-90 mb-4 pe-lg-3 fs-6 leading-relaxed fw-normal">
+              <p className={`lead text-dark opacity-90 pe-lg-2 fs-6 leading-relaxed fw-normal ${isTamil ? 'mb-4 mt-2' : 'mb-3.5'}`}>
                 {isTamil ? (
                   <>
                     நாங்கள் <strong style={{ color: '#7A1C1C' }}>கல்வி, மருத்துவம், சமுதாய சேவை, முதியோர் அரவணைப்பு மற்றும் மனிதநேயம்</strong> மூலம் எளியோரின் வாழ்வை உயர்த்த பாடுபடுகிறோம். நாளைய சிறந்த எதிர்காலத்தை உருவாக்க எங்களுடன் இணையுங்கள்.
@@ -220,49 +239,43 @@ export const Hero: React.FC<HeroProps> = ({ onOpenDonate }) => {
               <div className="d-flex align-items-center justify-content-center justify-content-lg-start gap-3">
                 <a
                   href="#about"
-                  className="btn rounded-pill px-4.5 py-3 text-white fw-bold shadow-lg d-inline-flex align-items-center gap-2 hover-scale transition-all"
+                  className="btn rounded-pill px-5 py-3 text-white fw-bold shadow-md d-inline-flex align-items-center gap-2.5 hover-scale transition-all"
                   style={{
                     background: 'linear-gradient(135deg, #7A1C1C 0%, #521212 100%)',
                     border: '1.5px solid #D4AF37',
-                    letterSpacing: '1px',
-                    fontSize: '0.92rem',
+                    letterSpacing: '0.8px',
+                    fontSize: '0.95rem',
+                    boxShadow: '0 8px 24px rgba(122, 28, 28, 0.35)',
                   }}
                 >
                   <span>{isTamil ? 'கண்டறியுங்கள்' : 'DISCOVER MORE'}</span>
                   <ArrowRight size={18} />
                 </a>
-
-                <button
-                  onClick={onOpenDonate}
-                  className="btn btn-sst-gold py-3 px-4 rounded-pill fs-6 fw-bold shadow-md"
-                >
-                  <Heart size={18} fill="#120D08" />
-                  {t('hero.ctaDonate')}
-                </button>
               </div>
             </motion.div>
           </div>
 
-          {/* Right Column: Unconstrained 100% Full Scale Founders Image */}
-          <div className="col-12 col-lg-7 text-center text-lg-end position-relative">
+          {/* Right Column: Founders Image Scaled Tall to Match Left Text Height */}
+          <div className="col-12 col-lg-6 text-center text-lg-center position-relative d-flex align-items-center justify-content-center">
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               transition={{ duration: 0.9, delay: 0.2 }}
-              className="position-relative d-inline-block w-100"
+              className="position-relative d-flex align-items-center justify-content-center w-100 h-100"
             >
-              <div className="position-relative text-center text-lg-end">
+              <div className="position-relative text-center d-flex align-items-center justify-content-center w-100 h-100">
                 <img
                   src="/assets/images/founders.png"
                   alt="Founders of Sri Susheela Trust People Welfare Group"
-                  className="position-relative"
+                  className="position-relative hover-scale transition-all"
                   style={{
                     width: '100%',
-                    height: 'auto',
-                    maxHeight: '680px',
-                    maxWidth: 'none',
+                    height: '100%',
+                    minHeight: '480px',
+                    maxHeight: '5800px',
+                    maxWidth: '5400px',
                     objectFit: 'contain',
-                    filter: 'drop-shadow(0 25px 45px rgba(184, 134, 11, 0.45)) drop-shadow(0 0 30px rgba(255, 215, 0, 0.65))',
+                    filter: 'drop-shadow(0 25px 50px rgba(184, 134, 11, 0.45)) drop-shadow(0 0 35px rgba(255, 215, 0, 0.65))',
                     zIndex: 2,
                   }}
                 />
@@ -272,12 +285,15 @@ export const Hero: React.FC<HeroProps> = ({ onOpenDonate }) => {
         </div>
       </div>
 
-      {/* 7 Pillars Showcase Integrated DIRECTLY INSIDE Hero Section at Bottom (No White Gap Below) */}
+      {/* 7 Pillars Showcase in Frosted Glass Container */}
       <div
-        className="w-100 py-3 position-relative z-2 m-0"
+        className="w-100 py-3 position-relative z-2 m-0 shadow-sm"
         style={{
-          borderTop: '1px solid rgba(212, 175, 55, 0.4)',
-          background: 'rgba(254, 240, 138, 0.25)',
+          borderTop: '2px solid rgba(212, 175, 55, 0.45)',
+          background: 'rgba(255, 255, 255, 0.65)',
+          backdropFilter: 'blur(16px) saturate(180%)',
+          WebkitBackdropFilter: 'blur(16px) saturate(180%)',
+          boxShadow: '0 -8px 30px rgba(122, 28, 28, 0.06)',
         }}
       >
         <div className="container-fluid px-2 px-lg-4">
@@ -294,13 +310,13 @@ export const Hero: React.FC<HeroProps> = ({ onOpenDonate }) => {
                 >
                   {/* Circular Golden Ring Icon */}
                   <div
-                    className="rounded-circle mx-auto mb-2 d-flex align-items-center justify-content-center shadow-sm transition-all hover-scale"
+                    className="rounded-circle mx-auto mb-2 d-flex align-items-center justify-content-center transition-all hover-scale"
                     style={{
                       width: '52px',
                       height: '52px',
-                      background: 'rgba(255, 253, 245, 0.85)',
+                      background: 'linear-gradient(135deg, #FFFDF5 0%, #FEF08A 100%)',
                       border: '2px solid #D4AF37',
-                      boxShadow: '0 4px 12px rgba(122, 28, 28, 0.12)',
+                      boxShadow: '0 6px 16px rgba(122, 28, 28, 0.15), 0 0 12px rgba(255, 215, 0, 0.3)',
                     }}
                   >
                     <IconComp size={24} style={{ color: '#7A1C1C' }} />

@@ -12,13 +12,25 @@ export const NewsPage: React.FC = () => {
 
   return (
     <div className="py-4">
-      {/* Banner */}
-      <div className="bg-gradient-sst-dark text-white py-5 px-3 mb-5 text-center position-relative">
+      {/* High-Contrast Luxury Dark Gold Header Banner */}
+      <div
+        className="py-5 px-3 mb-5 text-center position-relative shadow-md"
+        style={{
+          background: 'linear-gradient(135deg, #1A0F0A 0%, #3D1212 50%, #200D0D 100%)',
+          borderBottom: '3px solid #D4AF37',
+        }}
+      >
         <div className="container-fluid max-w-7xl">
-          <span className="badge badge-gold mb-2 text-uppercase tracking-wider">Press & Media</span>
-          <h1 className="display-4 font-heading fw-bold text-gradient-gold mb-3">News & Updates</h1>
-          <p className="lead text-light opacity-90 max-w-2xl mx-auto fs-6">
-            Stay informed with our latest social achievements, awards, press releases, and stories of hope.
+          <span className={`badge badge-gold mb-2 text-uppercase tracking-wider ${isTamil ? 'font-tamil' : ''}`}>
+            {isTamil ? 'செய்திகள் & ஊடகம்' : 'Press & Media'}
+          </span>
+          <h1 className={`display-4 fw-bold text-gradient-gold mb-3 ${isTamil ? 'font-tamil' : 'font-heading'}`}>
+            {isTamil ? 'செய்திகள் & புதிய தகவல்கள்' : 'News & Updates'}
+          </h1>
+          <p className={`lead text-light opacity-90 max-w-2xl mx-auto fs-6 ${isTamil ? 'font-tamil' : ''}`}>
+            {isTamil
+              ? 'எங்கள் அறக்கட்டளையின் சமீபத்திய சாதனைகள், பத்திரிகைச் செய்திகள் மற்றும் சேவைப் செய்திகள்.'
+              : 'Stay informed with our latest social achievements, awards, press releases, and stories of hope.'}
           </p>
         </div>
       </div>
