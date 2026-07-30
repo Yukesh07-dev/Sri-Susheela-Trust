@@ -4,9 +4,12 @@ import { useTranslation } from 'react-i18next';
 import { Heart, Globe, Menu, X, PhoneCall } from 'lucide-react';
 import { TRUST_INFO } from '../constants';
 
-interface NavbarProps {}
+interface NavbarProps {
+  onOpenDonate?: () => void;
+  onOpenLanguageModal?: () => void;
+}
 
-export const Navbar: React.FC<NavbarProps> = () => {
+export const Navbar: React.FC<NavbarProps> = ({ onOpenDonate, onOpenLanguageModal }) => {
   const { t, i18n } = useTranslation();
   const location = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
@@ -26,10 +29,12 @@ export const Navbar: React.FC<NavbarProps> = () => {
   }, [location]);
 
   const toggleLanguage = () => {
-    const nextLang = i18n.language === 'ta' ? 'en' : 'ta';
-    i18n.changeLanguage(nextLang);
-    localStorage.setItem('i18nextLng', nextLang);
-    localStorage.setItem('sst_lang_selected', 'true');
+    if (onOpenLanguageModal) {
+      onOpenLanguageModal();
+    } else {
+      const nextLang = isTamil ? 'en' : 'ta';
+      i18n.changeLanguage(nextLang);
+    }
   };
 
   const navLinks = [
@@ -46,120 +51,80 @@ export const Navbar: React.FC<NavbarProps> = () => {
 
   return (
     <>
-      {/* Fixed Top Glass Navbar with Blurry Backdrop Effect & Gold Top Accent */}
+      {/* Fixed-height Sticky Navbar */}
       <nav
-        className="fixed-top w-100 py-2 transition-all duration-300 shadow-sm"
-        style={{
-          zIndex: 1050,
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          background: isScrolled
-            ? 'rgba(255, 253, 240, 0.95)'
-            : 'rgba(255, 253, 240, 0.88)',
-          backdropFilter: 'blur(16px) saturate(180%)',
-          WebkitBackdropFilter: 'blur(16px) saturate(180%)',
-          borderTop: '2.5px solid #D4AF37',
-          borderBottom: '1px solid rgba(212, 175, 55, 0.25)',
-          boxShadow: isScrolled ? '0 10px 28px rgba(18, 13, 8, 0.08)' : '0 2px 10px rgba(0, 0, 0, 0.03)',
-        }}
+        className={`sst-navbar sticky-top w-100 transition-all duration-300 ${
+          isScrolled ? 'glass-nav-gold shadow-sm' : 'bg-white border-bottom'
+        }`}
+        style={{ zIndex: 1040 }}
       >
-        <div className="container-fluid px-3 px-lg-4 d-flex align-items-center justify-content-between">
+        <div className="sst-navbar__inner container-fluid px-3 px-lg-4 d-flex align-items-center justify-content-between">
           {/* Logo & Official Emblem */}
-          <Link to="/" className="d-flex align-items-center text-decoration-none gap-2.5">
+          <Link to="/" className="sst-navbar__logo d-flex align-items-center text-decoration-none gap-2">
             <img
               src="/assets/images/logo.jpg"
               alt="Sri Susheela Trust Logo"
-              className="rounded-circle p-0.5 bg-white border border-warning"
-              style={{
-                width: '44px',
-                height: '44px',
-                border: '1.5px solid #FFD700',
-                boxShadow: '0 0 10px rgba(212, 175, 55, 0.25)',
-              }}
+              className="sst-navbar__logo-img rounded-circle shadow-sm bg-white border border-warning"
             />
-            <div>
-              <h5
-                className={`fw-bold text-navy mb-0 leading-none ${
-                  isTamil ? 'font-tamil fs-6' : 'font-heading fs-6'
-                }`}
-                style={{ letterSpacing: isTamil ? '0.3px' : '0.8px' }}
-              >
-                {isTamil ? 'ஸ்ரீ சுசீலா அறக்கட்டளை' : 'SRI SUSHEELA TRUST'}
+            <div className="sst-navbar__logo-text">
+              <h5 className="fw-bold text-navy mb-0 font-heading leading-none sst-navbar__brand-name">
+                SRI SUSHEELA TRUST
               </h5>
-              <span
-                className={`text-gradient-gold small fw-bold text-uppercase d-block mt-0.5 ${
-                  isTamil ? 'font-tamil' : ''
-                }`}
-                style={{ fontSize: '0.65rem', letterSpacing: isTamil ? '0.3px' : '0.8px' }}
-              >
-                {isTamil ? 'மக்கள் நலக் குழு' : 'PEOPLE WELFARE GROUP'}
+              <span className="text-gradient-gold fw-bold text-uppercase d-block sst-navbar__tagline">
+                PEOPLE WELFARE GROUP
               </span>
             </div>
           </Link>
 
-          {/* Desktop Navigation Links with Vertical Dividers */}
-          <div className="d-none d-xl-flex align-items-center gap-1">
-            {navLinks.map((link, idx) => (
-              <React.Fragment key={link.path}>
-                <NavLink
-                  to={link.path}
-                  className={({ isActive }) =>
-                    `nav-link px-3 py-1.5 rounded-3 fw-bold transition-all ${
-                      isTamil ? 'font-tamil' : ''
-                    } ${
-                      isActive
-                        ? 'bg-warning text-dark shadow-xs'
-                        : 'text-navy hover-text-warning'
-                    }`
-                  }
-                  style={{ fontSize: isTamil ? '0.88rem' : '0.9rem', whiteSpace: 'nowrap' }}
-                >
-                  {link.label}
-                </NavLink>
-
-                {/* Subtle Vertical Divider Line between items */}
-                {idx < navLinks.length - 1 && (
-                  <span
-                    className="mx-1 opacity-40 select-none pointer-events-none"
-                    style={{ fontSize: '0.82rem', fontWeight: 300, color: '#D4AF37' }}
-                  >
-                    |
-                  </span>
-                )}
-              </React.Fragment>
+          {/* Desktop Navigation Links */}
+          <div className="sst-navbar__links d-none d-xl-flex align-items-center bg-light rounded-pill border border-warning border-opacity-30">
+            {navLinks.map((link) => (
+              <NavLink
+                key={link.path}
+                to={link.path}
+                className={({ isActive }) =>
+                  `sst-navbar__link nav-link rounded-pill fw-semibold transition-all ${
+                    isActive
+                      ? 'bg-warning text-dark shadow-sm'
+                      : 'text-navy hover-text-warning'
+                  }`
+                }
+              >
+                {link.label}
+              </NavLink>
             ))}
           </div>
 
-          {/* Action Area (Language Toggle + Mobile Toggle) */}
-          <div className="d-flex align-items-center gap-2">
-            {/* Styled Language Switcher Button */}
+          {/* Action Area (Language + Donate + Mobile Toggle) */}
+          <div className="sst-navbar__actions d-flex align-items-center gap-2">
+            {/* Language Switcher */}
             <button
               onClick={toggleLanguage}
-              className="btn rounded-3 px-3 py-1.5 d-inline-flex align-items-center gap-1.5 fw-bold text-navy shadow-xs transition-all hover-scale"
-              style={{
-                background: 'linear-gradient(135deg, #FFFDF5 0%, #FEF08A 100%)',
-                border: '1.5px solid #D4AF37',
-                fontSize: '0.84rem',
-                boxShadow: '0 2px 8px rgba(212, 175, 55, 0.22)',
-              }}
-              title="Select Language / மொழியை மாற்றுக"
+              className="sst-navbar__lang-btn btn btn-sm btn-outline-warning rounded-pill d-inline-flex align-items-center gap-1 fw-bold text-dark border-warning"
+              title="Select Language"
             >
-              <Globe size={15} className="text-warning fill-warning" />
-              <span className={isTamil ? 'font-tamil' : ''}>
-                {i18n.language === 'ta' ? 'EN' : 'தமிழ்'}
-              </span>
+              <Globe size={15} className="text-warning" />
+              <span>{isTamil ? 'EN' : 'தமிழ்'}</span>
             </button>
+
+            {/* Donate CTA */}
+            {onOpenDonate && (
+              <button
+                onClick={onOpenDonate}
+                className="sst-navbar__donate-btn btn btn-sst-gold rounded-pill d-none d-sm-inline-flex align-items-center gap-1.5 shadow-sm"
+              >
+                <Heart size={16} fill="#120D08" />
+                <span>{t('nav.donate')}</span>
+              </button>
+            )}
 
             {/* Mobile Menu Toggle Button */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="btn btn-light rounded-circle p-1.5 d-xl-none border d-flex align-items-center justify-content-center ms-1 shadow-xs"
-              style={{ width: '38px', height: '38px' }}
+              className="btn btn-light rounded-circle d-xl-none border d-flex align-items-center justify-content-center ms-1 sst-navbar__hamburger"
               aria-label="Toggle Navigation Menu"
             >
-              {isMobileMenuOpen ? <X size={20} className="text-danger" /> : <Menu size={20} className="text-navy" />}
+              {isMobileMenuOpen ? <X size={22} className="text-danger" /> : <Menu size={22} className="text-navy" />}
             </button>
           </div>
         </div>
@@ -168,22 +133,19 @@ export const Navbar: React.FC<NavbarProps> = () => {
       {/* Mobile Drawer Navigation */}
       {isMobileMenuOpen && (
         <div
-          className="position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-75 z-5 d-xl-none"
+          className="position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-75 d-xl-none"
           onClick={() => setIsMobileMenuOpen(false)}
           style={{ zIndex: 1050 }}
         >
           <div
-            className="position-absolute top-0 end-0 h-100 bg-white shadow-lg p-4 d-flex flex-column"
-            style={{ width: '310px', maxWidth: '85vw' }}
+            className="position-absolute top-0 end-0 h-100 bg-white shadow-lg p-4 d-flex flex-column sst-navbar__drawer"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Drawer Header */}
             <div className="d-flex align-items-center justify-content-between pb-3 border-bottom mb-3">
               <div className="d-flex align-items-center gap-2">
-                <img src="/assets/images/logo.jpg" alt="Logo" className="rounded-circle border border-warning" style={{ width: '36px', height: '36px' }} />
-                <span className={`fw-bold text-navy ${isTamil ? 'font-tamil' : 'font-heading'}`}>
-                  {isTamil ? 'பட்டி (Menu)' : 'Menu'}
-                </span>
+                <img src="/assets/images/logo.jpg" alt="Logo" className="rounded-circle" style={{ width: '36px', height: '36px' }} />
+                <span className="fw-bold text-navy font-heading">{isTamil ? 'பட்டி' : 'Menu'}</span>
               </div>
               <button
                 onClick={() => setIsMobileMenuOpen(false)}
@@ -211,11 +173,26 @@ export const Navbar: React.FC<NavbarProps> = () => {
             </div>
 
             {/* Drawer Footer Actions */}
-            <div className="pt-3 border-top mt-auto text-center small text-muted">
-              <a href={`tel:${TRUST_INFO.phonePrimary}`} className="text-decoration-none text-navy fw-semibold">
-                <PhoneCall size={14} className="me-1 text-warning" />
-                {TRUST_INFO.phonePrimary}
-              </a>
+            <div className="pt-3 border-top mt-auto">
+              {onOpenDonate && (
+                <button
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    onOpenDonate();
+                  }}
+                  className="btn btn-sst-gold w-100 py-2.5 justify-content-center mb-2"
+                >
+                  <Heart size={18} fill="#120D08" />
+                  {t('nav.donate')}
+                </button>
+              )}
+
+              <div className="text-center small text-muted mt-2">
+                <a href={`tel:${TRUST_INFO.phonePrimary}`} className="text-decoration-none text-navy fw-semibold">
+                  <PhoneCall size={14} className="me-1 text-warning" />
+                  {TRUST_INFO.phonePrimary}
+                </a>
+              </div>
             </div>
           </div>
         </div>

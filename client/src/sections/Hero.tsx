@@ -87,13 +87,15 @@ export const Hero: React.FC<HeroProps> = () => {
 
   return (
     <section
-      className="position-relative overflow-hidden d-flex flex-column justify-content-between m-0"
+      className="position-relative d-flex flex-column justify-content-between m-0"
       style={{
         background: 'linear-gradient(135deg, #FFF9C4 0%, #FEF08A 45%, #FDE047 100%)',
-        minHeight: 'calc(100vh - 50px)',
-        paddingTop: '0px',
+        minHeight: 'min(calc(100vh - 64px), 900px)',
+        paddingTop: '1rem',
         paddingBottom: '0px',
         margin: 0,
+        overflowX: 'clip' as any,
+        overflowY: 'visible' as any,
       }}
     >
       {/* Subtle Royal Sacred Geometric Mandala Mesh Pattern Overlay */}
@@ -143,7 +145,7 @@ export const Hero: React.FC<HeroProps> = () => {
         }}
       />
 
-      <div className="container-fluid px-3 px-lg-5 max-w-7xl position-relative my-auto py-1" style={{ zIndex: 1, marginTop: '-5px' }}>
+      <div className="container-fluid px-3 px-lg-5 max-w-7xl position-relative my-auto py-2" style={{ zIndex: 1 }}>
         <div className="row align-items-stretch g-3 g-lg-4">
           {/* Left Column Shifted Cleanly Rightward */}
           <div className="col-12 col-lg-6 text-center text-lg-start ps-lg-4 ps-xl-5 d-flex flex-column justify-content-center">
@@ -156,7 +158,7 @@ export const Hero: React.FC<HeroProps> = () => {
               {/* Top Branding Emblem Header Shifted Upper with Tamil Spacing */}
               <div
                 className="d-flex align-items-center justify-content-center justify-content-lg-start gap-2.5"
-                style={{ marginTop: '-16px', marginBottom: isTamil ? '1.2rem' : '0.6rem' }}
+                style={{ marginBottom: isTamil ? '1.2rem' : '0.6rem' }}
               >
                 <img
                   src="/assets/images/logo.jpg"
@@ -255,31 +257,31 @@ export const Hero: React.FC<HeroProps> = () => {
             </motion.div>
           </div>
 
-          {/* Right Column: Founders Image Scaled Tall to Match Left Text Height */}
-          <div className="col-12 col-lg-6 text-center text-lg-center position-relative d-flex align-items-center justify-content-center">
+          {/* Right Column: Founders Image */}
+          <div className="col-12 col-lg-6 text-center position-relative d-flex align-items-end justify-content-center">
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               transition={{ duration: 0.9, delay: 0.2 }}
-              className="position-relative d-flex align-items-center justify-content-center w-100 h-100"
+              className="position-relative d-flex align-items-end justify-content-center w-100"
             >
-              <div className="position-relative text-center d-flex align-items-center justify-content-center w-100 h-100">
-                <img
-                  src="/assets/images/founders.png"
-                  alt="Founders of Sri Susheela Trust People Welfare Group"
-                  className="position-relative hover-scale transition-all"
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    minHeight: '480px',
-                    maxHeight: '5800px',
-                    maxWidth: '5400px',
-                    objectFit: 'contain',
-                    filter: 'drop-shadow(0 25px 50px rgba(184, 134, 11, 0.45)) drop-shadow(0 0 35px rgba(255, 215, 0, 0.65))',
-                    zIndex: 2,
-                  }}
-                />
-              </div>
+              <img
+                src="/assets/images/hero_founders_hd.png"
+                alt="Founders of Sri Susheela Trust People Welfare Group"
+                className="position-relative"
+                style={{
+                  width: '100%',
+                  maxWidth: '700px',
+                  height: 'auto',
+                  maxHeight: 'calc(100vh - 180px)',
+                  objectFit: 'contain',
+                  objectPosition: 'bottom center',
+                  filter: 'drop-shadow(0 15px 40px rgba(18, 13, 8, 0.25))',
+                  maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 82%, rgba(0,0,0,0) 98%)',
+                  WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 82%, rgba(0,0,0,0) 98%)',
+                  zIndex: 2,
+                }}
+              />
             </motion.div>
           </div>
         </div>

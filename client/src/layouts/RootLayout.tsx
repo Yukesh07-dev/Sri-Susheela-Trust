@@ -24,8 +24,8 @@ export const RootLayout: React.FC = () => {
       {/* Main Navbar */}
       <Navbar />
 
-      {/* Page Content with top padding offset for Fixed Navbar */}
-      <main className="flex-grow-1" style={{ paddingTop: '65px' }}>
+      {/* Page Content */}
+      <main className="flex-grow-1">
         <Outlet />
       </main>
 

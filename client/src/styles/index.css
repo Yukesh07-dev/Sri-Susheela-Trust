@@ -107,6 +107,208 @@ html[lang="ta"] span {
   border-bottom: 2px solid rgba(212, 175, 55, 0.35);
 }
 
+/* ============================================
+   SST NAVBAR — Consistent sizing across languages
+   ============================================ */
+
+/* Fixed navbar height & layout */
+.sst-navbar {
+  height: 64px;
+  border-top: 3px solid var(--sst-gold-primary);
+}
+
+.sst-navbar__inner {
+  height: 100%;
+}
+
+/* Logo section — fixed width so nav links get the remaining space */
+.sst-navbar__logo {
+  flex-shrink: 0;
+  min-width: 0;
+}
+
+.sst-navbar__logo-img {
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  padding: 1px;
+}
+
+.sst-navbar__brand-name {
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.sst-navbar__tagline {
+  font-size: 0.6rem;
+  letter-spacing: 0.6px;
+  margin-top: 1px;
+  white-space: nowrap;
+}
+
+/* Nav links container — fills available space, distributes items evenly */
+.sst-navbar__links {
+  flex: 1 1 auto;
+  min-width: 0;
+  justify-content: center;
+  gap: 3px;
+  padding: 5px 10px;
+  margin: 0 14px;
+  overflow: hidden;
+}
+
+/* Individual nav links — English default sizing */
+.sst-navbar__link {
+  white-space: nowrap;
+  text-align: center;
+  padding: 6px 12px !important;
+  font-size: 0.9rem !important;
+  font-weight: 600;
+  line-height: 1.3;
+  flex-shrink: 1;
+  min-width: 0;
+  transition: all 0.2s ease;
+}
+
+.sst-navbar__link:hover {
+  background-color: rgba(212, 175, 55, 0.15);
+}
+
+/* Tamil language — smaller font to fit same container */
+html[lang="ta"] .sst-navbar__link {
+  font-size: clamp(0.62rem, 0.68vw, 0.78rem) !important;
+  padding: 6px 7px !important;
+  letter-spacing: -0.2px;
+}
+
+html[lang="ta"] .sst-navbar__brand-name {
+  font-size: 0.78rem;
+  letter-spacing: 0.2px;
+}
+
+html[lang="ta"] .sst-navbar__tagline {
+  font-size: 0.55rem;
+  letter-spacing: 0.2px;
+}
+
+/* Action buttons — fixed width, don't shrink */
+.sst-navbar__actions {
+  flex-shrink: 0;
+}
+
+.sst-navbar__lang-btn {
+  font-size: 0.8rem;
+  padding: 5px 10px;
+  white-space: nowrap;
+}
+
+.sst-navbar__donate-btn {
+  font-size: 0.8rem;
+  padding: 8px 14px !important;
+  white-space: nowrap;
+}
+
+.sst-navbar__hamburger {
+  width: 40px;
+  height: 40px;
+}
+
+/* Mobile drawer */
+.sst-navbar__drawer {
+  width: 310px;
+  max-width: 85vw;
+}
+
+/* ============================================
+   RESPONSIVE NAVBAR BREAKPOINTS
+   ============================================ */
+
+/* Large desktops (1400px+) — comfortable spacing */
+@media (min-width: 1400px) {
+  .sst-navbar__link {
+    font-size: 0.92rem !important;
+    padding: 6px 16px !important;
+  }
+  html[lang="ta"] .sst-navbar__link {
+    font-size: 0.8rem !important;
+    padding: 6px 10px !important;
+  }
+  .sst-navbar__links {
+    gap: 4px;
+    margin: 0 20px;
+  }
+}
+
+/* Standard desktops (1200px–1399px) — slightly tighter */
+@media (min-width: 1200px) and (max-width: 1399px) {
+  .sst-navbar__link {
+    font-size: 0.85rem !important;
+    padding: 5px 10px !important;
+  }
+  html[lang="ta"] .sst-navbar__link {
+    font-size: 0.72rem !important;
+    padding: 5px 6px !important;
+  }
+  .sst-navbar__links {
+    gap: 2px;
+    margin: 0 10px;
+    padding: 4px 8px;
+  }
+  .sst-navbar__brand-name {
+    font-size: 0.82rem;
+  }
+  .sst-navbar__donate-btn {
+    font-size: 0.78rem;
+    padding: 6px 12px !important;
+  }
+}
+
+/* Tablets (768px–1199px) — show mobile menu */
+@media (max-width: 1199px) {
+  .sst-navbar {
+    height: 60px;
+  }
+  .sst-navbar__logo-img {
+    width: 38px;
+    height: 38px;
+  }
+  .sst-navbar__brand-name {
+    font-size: 0.8rem;
+  }
+  .sst-navbar__tagline {
+    font-size: 0.55rem;
+  }
+}
+
+/* Small phones (< 480px) */
+@media (max-width: 480px) {
+  .sst-navbar {
+    height: 56px;
+  }
+  .sst-navbar__logo-img {
+    width: 34px;
+    height: 34px;
+  }
+  .sst-navbar__brand-name {
+    font-size: 0.72rem;
+  }
+  .sst-navbar__tagline {
+    font-size: 0.5rem;
+  }
+  .sst-navbar__lang-btn {
+    font-size: 0.72rem;
+    padding: 4px 8px;
+  }
+  .sst-navbar__hamburger {
+    width: 36px;
+    height: 36px;
+  }
+  .sst-navbar__drawer {
+    width: 280px;
+  }
+}
+
 .card-luxury-gold {
   border: 2px solid rgba(212, 175, 55, 0.35);
   border-radius: 1.25rem;
