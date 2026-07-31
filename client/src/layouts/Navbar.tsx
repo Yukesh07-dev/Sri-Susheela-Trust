@@ -77,21 +77,28 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenDonate, onOpenLanguageModa
           </Link>
 
           {/* Desktop Navigation Links */}
-          <div className="sst-navbar__links d-none d-xl-flex align-items-center bg-light rounded-pill border border-warning border-opacity-30">
-            {navLinks.map((link) => (
-              <NavLink
-                key={link.path}
-                to={link.path}
-                className={({ isActive }) =>
-                  `sst-navbar__link nav-link rounded-pill fw-semibold transition-all ${
-                    isActive
-                      ? 'bg-warning text-dark shadow-sm'
-                      : 'text-navy hover-text-warning'
-                  }`
-                }
-              >
-                {link.label}
-              </NavLink>
+          <div className="sst-navbar__links d-none d-xl-flex align-items-center bg-light rounded-pill border border-warning border-opacity-30 px-1 py-1">
+            {navLinks.map((link, index) => (
+              <React.Fragment key={link.path}>
+                <NavLink
+                  to={link.path}
+                  className={({ isActive }) =>
+                    `sst-navbar__link nav-link rounded-pill fw-semibold transition-all ${
+                      isActive
+                        ? 'bg-warning text-dark shadow-sm'
+                        : 'text-navy hover-text-warning'
+                    }`
+                  }
+                >
+                  {link.label}
+                </NavLink>
+                {index < navLinks.length - 1 && (
+                  <div
+                    className="sst-navbar__divider bg-warning opacity-40 mx-1"
+                    style={{ width: '1px', height: '16px', flexShrink: 0 }}
+                  />
+                )}
+              </React.Fragment>
             ))}
           </div>
 
@@ -107,15 +114,21 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenDonate, onOpenLanguageModa
               <span>{isTamil ? 'EN' : 'தமிழ்'}</span>
             </button>
 
+            <div className="d-none d-sm-block bg-warning opacity-40 mx-1" style={{ width: '1px', height: '20px' }} />
+
             {/* Donate CTA */}
             {onOpenDonate && (
-              <button
-                onClick={onOpenDonate}
-                className="sst-navbar__donate-btn btn btn-sst-gold rounded-pill d-none d-sm-inline-flex align-items-center gap-1.5 shadow-sm"
-              >
-                <Heart size={16} fill="#120D08" />
-                <span>{t('nav.donate')}</span>
-              </button>
+              <>
+                <button
+                  onClick={onOpenDonate}
+                  className="sst-navbar__donate-btn btn btn-sst-gold rounded-pill d-none d-sm-inline-flex align-items-center gap-1.5 shadow-sm"
+                >
+                  <Heart size={16} fill="#120D08" />
+                  <span>{t('nav.donate')}</span>
+                </button>
+
+                <div className="d-none d-xl-block bg-warning opacity-40 mx-1" style={{ width: '1px', height: '20px' }} />
+              </>
             )}
 
             {/* Mobile Menu Toggle Button */}
@@ -158,17 +171,19 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenDonate, onOpenLanguageModa
             {/* Drawer Links */}
             <div className="overflow-y-auto flex-grow-1 nav flex-column gap-1 pe-1">
               {navLinks.map((link) => (
-                <NavLink
-                  key={link.path}
-                  to={link.path}
-                  className={({ isActive }) =>
-                    `nav-link px-3 py-2.5 rounded-3 fw-bold text-start d-flex align-items-center justify-content-between ${
-                      isActive ? 'bg-warning text-dark' : 'text-navy hover-bg-light'
-                    }`
-                  }
-                >
-                  <span>{link.label}</span>
-                </NavLink>
+                <React.Fragment key={link.path}>
+                  <NavLink
+                    to={link.path}
+                    className={({ isActive }) =>
+                      `nav-link px-3 py-2.5 rounded-3 fw-bold text-start d-flex align-items-center justify-content-between ${
+                        isActive ? 'bg-warning text-dark' : 'text-navy hover-bg-light'
+                      }`
+                    }
+                  >
+                    <span>{link.label}</span>
+                  </NavLink>
+                  <div className="w-100 bg-warning opacity-20 my-1" style={{ height: '1px' }} />
+                </React.Fragment>
               ))}
             </div>
 

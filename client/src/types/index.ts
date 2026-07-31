@@ -12,6 +12,7 @@ export interface ProgramItem {
   iconName: string;
   imageUrl: string;
   beneficiariesCount: string;
+  beneficiariesCountTa?: string;
   features: string[];
   featuresTa: string[];
 }

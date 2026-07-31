@@ -87,9 +87,8 @@ export const Hero: React.FC<HeroProps> = () => {
 
   return (
     <section
-      className="position-relative d-flex flex-column justify-content-between m-0"
+      className="position-relative d-flex flex-column justify-content-between m-0 sst-hero-bg"
       style={{
-        background: 'linear-gradient(135deg, #FFF9C4 0%, #FEF08A 45%, #FDE047 100%)',
         minHeight: 'min(calc(100vh - 64px), 900px)',
         paddingTop: '1rem',
         paddingBottom: '0px',
@@ -147,41 +146,54 @@ export const Hero: React.FC<HeroProps> = () => {
 
       <div className="container-fluid px-3 px-lg-5 max-w-7xl position-relative my-auto py-2" style={{ zIndex: 1 }}>
         <div className="row align-items-stretch g-3 g-lg-4">
-          {/* Left Column Shifted Cleanly Rightward */}
-          <div className="col-12 col-lg-6 text-center text-lg-start ps-lg-4 ps-xl-5 d-flex flex-column justify-content-center">
+          {/* Left Column */}
+          <div className="col-12 col-lg-6 text-center text-lg-start ps-lg-4 ps-xl-5 d-flex flex-column justify-content-center position-relative">
+            {/* Edge-Free Soft Radial White/Gold Glow matching background (Zero box edges) */}
+            <div
+              className="position-absolute top-50 start-50 translate-middle pointer-events-none"
+              style={{
+                width: '120%',
+                height: '110%',
+                background: 'radial-gradient(ellipse at center, rgba(255, 255, 255, 0.82) 0%, rgba(255, 253, 245, 0.5) 50%, transparent 80%)',
+                filter: 'blur(25px)',
+                zIndex: 0,
+              }}
+            />
+
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.85 }}
-              className="ms-lg-3"
+              className="ms-lg-3 position-relative"
+              style={{ zIndex: 1 }}
             >
-              {/* Top Branding Emblem Header Shifted Upper with Tamil Spacing */}
+              {/* Top Branding Emblem Header */}
               <div
-                className="d-flex align-items-center justify-content-center justify-content-lg-start gap-2.5"
-                style={{ marginBottom: isTamil ? '1.2rem' : '0.6rem' }}
+                className="d-flex align-items-center justify-content-center justify-content-lg-start gap-2"
+                style={{ marginBottom: isTamil ? '0.5rem' : '0.35rem' }}
               >
                 <img
                   src="/assets/images/logo.jpg"
                   alt="Sri Susheela Trust Logo"
                   className="rounded-circle shadow-md p-0.5 bg-white border border-warning"
-                  style={{ width: '54px', height: '54px', boxShadow: '0 0 16px rgba(212, 175, 55, 0.45)' }}
+                  style={{ width: '44px', height: '44px', boxShadow: '0 0 12px rgba(212, 175, 55, 0.45)' }}
                 />
                 <div className="text-start">
                   <h4
-                    className={`fw-bold mb-0 tracking-wide ${isTamil ? 'font-tamil fs-5' : 'font-heading fs-5'}`}
-                    style={{ color: '#7A1C1C', letterSpacing: '0.8px' }}
+                    className={`fw-bold mb-0 tracking-wide ${isTamil ? 'font-tamil fs-6' : 'font-heading fs-6'}`}
+                    style={{ color: '#7A1C1C', letterSpacing: '0.6px', textShadow: '0 1px 8px rgba(255, 255, 255, 0.95)' }}
                   >
                     {isTamil ? 'ஸ்ரீ சுசீலா அறக்கட்டளை' : 'SRI SUSHEELA TRUST'}
                   </h4>
                   <div
                     className={`small fw-bold text-uppercase tracking-wider opacity-90 ${isTamil ? 'font-tamil' : ''}`}
-                    style={{ color: '#8C6826', fontSize: '0.78rem', letterSpacing: '1px' }}
+                    style={{ color: '#8C6826', fontSize: '0.72rem', letterSpacing: '0.8px', textShadow: '0 1px 8px rgba(255, 255, 255, 0.95)' }}
                   >
                     {isTamil ? '— மக்கள் நலக் குழு —' : '— PEOPLE WELFARE GROUP —'}
                   </div>
                   <div
                     className={`fw-bold text-uppercase ${isTamil ? 'font-tamil' : ''}`}
-                    style={{ color: '#523E18', fontSize: '0.7rem', letterSpacing: '0.9px' }}
+                    style={{ color: '#523E18', fontSize: '0.65rem', letterSpacing: '0.8px', textShadow: '0 1px 8px rgba(255, 255, 255, 0.95)' }}
                   >
                     {isTamil ? 'மனிதநேயத்துடன் அன்புடன் சேவையாற்றுகிறோம்' : 'SERVING HUMANITY WITH COMPASSION'}
                   </div>
@@ -190,12 +202,11 @@ export const Hero: React.FC<HeroProps> = () => {
 
               {/* Main Headline */}
               <h1
-                className="font-heading fw-extrabold leading-tight text-uppercase"
+                className="font-heading fw-extrabold leading-tight text-uppercase sst-hero-title"
                 style={{
-                  fontSize: isTamil ? '2.8rem' : '4.3rem',
-                  letterSpacing: '1.4px',
-                  lineHeight: isTamil ? '1.22' : '1.08',
-                  marginBottom: isTamil ? '1.2rem' : '0.6rem',
+                  letterSpacing: '1px',
+                  lineHeight: isTamil ? '1.2' : '1.08',
+                  textShadow: '0 2px 14px rgba(255, 255, 255, 1), 0 0 8px rgba(255, 255, 255, 0.9)',
                 }}
               >
                 {isTamil ? (
@@ -214,14 +225,17 @@ export const Hero: React.FC<HeroProps> = () => {
               </h1>
 
               {/* Flourish Golden Heart Line Divider */}
-              <div className={`d-flex align-items-center justify-content-center justify-content-lg-start gap-2 opacity-85 ${isTamil ? 'my-3' : 'my-2.5'}`}>
-                <div style={{ height: '1.5px', width: '75px', background: 'linear-gradient(90deg, transparent, #8C6826)' }} />
-                <Heart size={15} fill="#8C6826" color="#8C6826" />
-                <div style={{ height: '1.5px', width: '75px', background: 'linear-gradient(90deg, #8C6826, transparent)' }} />
+              <div className={`d-flex align-items-center justify-content-center justify-content-lg-start gap-2 opacity-85 ${isTamil ? 'my-2' : 'my-1.5'}`}>
+                <div style={{ height: '1.5px', width: '55px', background: 'linear-gradient(90deg, transparent, #8C6826)' }} />
+                <Heart size={14} fill="#8C6826" color="#8C6826" />
+                <div style={{ height: '1.5px', width: '55px', background: 'linear-gradient(90deg, #8C6826, transparent)' }} />
               </div>
 
               {/* Description Paragraph */}
-              <p className={`lead text-dark opacity-90 pe-lg-2 fs-6 leading-relaxed fw-normal ${isTamil ? 'mb-4 mt-2' : 'mb-3.5'}`}>
+              <p
+                className={`lead text-dark opacity-95 pe-lg-2 leading-relaxed fw-normal sst-hero-desc ${isTamil ? 'mb-3 mt-1.5' : 'mb-2.5'}`}
+                style={{ textShadow: '0 1px 10px rgba(255, 255, 255, 1)' }}
+              >
                 {isTamil ? (
                   <>
                     நாங்கள் <strong style={{ color: '#7A1C1C' }}>கல்வி, மருத்துவம், சமுதாய சேவை, முதியோர் அரவணைப்பு மற்றும் மனிதநேயம்</strong> மூலம் எளியோரின் வாழ்வை உயர்த்த பாடுபடுகிறோம். நாளைய சிறந்த எதிர்காலத்தை உருவாக்க எங்களுடன் இணையுங்கள்.
@@ -241,24 +255,23 @@ export const Hero: React.FC<HeroProps> = () => {
               <div className="d-flex align-items-center justify-content-center justify-content-lg-start gap-3">
                 <a
                   href="#about"
-                  className="btn rounded-pill px-5 py-3 text-white fw-bold shadow-md d-inline-flex align-items-center gap-2.5 hover-scale transition-all"
+                  className="btn rounded-pill px-4 py-2.5 px-lg-5 py-lg-3 text-white fw-bold shadow-md d-inline-flex align-items-center gap-2 hover-scale transition-all sst-hero-btn"
                   style={{
                     background: 'linear-gradient(135deg, #7A1C1C 0%, #521212 100%)',
                     border: '1.5px solid #D4AF37',
                     letterSpacing: '0.8px',
-                    fontSize: '0.95rem',
                     boxShadow: '0 8px 24px rgba(122, 28, 28, 0.35)',
                   }}
                 >
                   <span>{isTamil ? 'கண்டறியுங்கள்' : 'DISCOVER MORE'}</span>
-                  <ArrowRight size={18} />
+                  <ArrowRight size={16} />
                 </a>
               </div>
             </motion.div>
           </div>
 
           {/* Right Column: Founders Image */}
-          <div className="col-12 col-lg-6 text-center position-relative d-flex align-items-end justify-content-center">
+          <div className="col-12 col-lg-6 text-center position-relative d-flex align-items-end justify-content-center mt-3 mt-lg-0">
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -268,17 +281,11 @@ export const Hero: React.FC<HeroProps> = () => {
               <img
                 src="/assets/images/hero_founders_hd.png"
                 alt="Founders of Sri Susheela Trust People Welfare Group"
-                className="position-relative"
+                className="position-relative sst-hero-founders-img"
                 style={{
-                  width: '100%',
-                  maxWidth: '700px',
-                  height: 'auto',
-                  maxHeight: 'calc(100vh - 180px)',
-                  objectFit: 'contain',
-                  objectPosition: 'bottom center',
                   filter: 'drop-shadow(0 15px 40px rgba(18, 13, 8, 0.25))',
-                  maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 82%, rgba(0,0,0,0) 98%)',
-                  WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 82%, rgba(0,0,0,0) 98%)',
+                  maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 85%, rgba(0,0,0,0) 100%)',
+                  WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 85%, rgba(0,0,0,0) 100%)',
                   zIndex: 2,
                 }}
               />

@@ -43,7 +43,18 @@ body {
 }
 
 /* Headings */
-h1, h2, h3, h4, h5, h6, .display-1, .display-2, .display-3, .display-4, .display-5, .font-heading {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.display-1,
+.display-2,
+.display-3,
+.display-4,
+.display-5,
+.font-heading {
   font-family: 'Poppins', sans-serif;
   font-weight: 700;
   color: var(--sst-text-dark);
@@ -230,10 +241,12 @@ html[lang="ta"] .sst-navbar__tagline {
     font-size: 0.92rem !important;
     padding: 6px 16px !important;
   }
+
   html[lang="ta"] .sst-navbar__link {
     font-size: 0.8rem !important;
     padding: 6px 10px !important;
   }
+
   .sst-navbar__links {
     gap: 4px;
     margin: 0 20px;
@@ -246,18 +259,22 @@ html[lang="ta"] .sst-navbar__tagline {
     font-size: 0.85rem !important;
     padding: 5px 10px !important;
   }
+
   html[lang="ta"] .sst-navbar__link {
     font-size: 0.72rem !important;
     padding: 5px 6px !important;
   }
+
   .sst-navbar__links {
     gap: 2px;
     margin: 0 10px;
     padding: 4px 8px;
   }
+
   .sst-navbar__brand-name {
     font-size: 0.82rem;
   }
+
   .sst-navbar__donate-btn {
     font-size: 0.78rem;
     padding: 6px 12px !important;
@@ -269,13 +286,16 @@ html[lang="ta"] .sst-navbar__tagline {
   .sst-navbar {
     height: 60px;
   }
+
   .sst-navbar__logo-img {
     width: 38px;
     height: 38px;
   }
+
   .sst-navbar__brand-name {
     font-size: 0.8rem;
   }
+
   .sst-navbar__tagline {
     font-size: 0.55rem;
   }
@@ -286,24 +306,30 @@ html[lang="ta"] .sst-navbar__tagline {
   .sst-navbar {
     height: 56px;
   }
+
   .sst-navbar__logo-img {
     width: 34px;
     height: 34px;
   }
+
   .sst-navbar__brand-name {
     font-size: 0.72rem;
   }
+
   .sst-navbar__tagline {
     font-size: 0.5rem;
   }
+
   .sst-navbar__lang-btn {
     font-size: 0.72rem;
     padding: 4px 8px;
   }
+
   .sst-navbar__hamburger {
     width: 36px;
     height: 36px;
   }
+
   .sst-navbar__drawer {
     width: 280px;
   }
@@ -431,17 +457,21 @@ html[lang="ta"] .sst-navbar__tagline {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
 }
 
 @keyframes goldenSparkle {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 0.25;
     transform: scale(0.6) rotate(0deg);
     filter: drop-shadow(0 0 6px rgba(212, 175, 55, 0.5));
   }
+
   50% {
     opacity: 1;
     transform: scale(1.4) rotate(90deg);
@@ -453,19 +483,24 @@ html[lang="ta"] .sst-navbar__tagline {
   0% {
     background-position: 0% 50%;
   }
+
   50% {
     background-position: 100% 50%;
   }
+
   100% {
     background-position: 0% 50%;
   }
 }
 
 @keyframes orbPulse {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: scale(1) translate(0px, 0px);
     opacity: 0.7;
   }
+
   50% {
     transform: scale(1.25) translate(20px, -20px);
     opacity: 0.95;
@@ -530,5 +565,44 @@ html[lang="ta"] .sst-navbar__tagline {
   .section-padding {
     padding-top: 3.25rem;
     padding-bottom: 3.25rem;
+  }
+}
+
+/* Hero Section Custom Background */
+.sst-hero-bg {
+  background: url('/assets/images/hero-back.png') center top / cover no-repeat !important;
+}
+
+/* Responsive Hero Typography & Founders Image for Mobile 1st Screen Fit */
+.sst-hero-title {
+  font-size: clamp(1.65rem, 5.5vw, 4.3rem);
+  margin-bottom: 0.5rem;
+}
+
+html[lang="ta"] .sst-hero-title {
+  font-size: clamp(1.45rem, 4.8vw, 2.8rem);
+  margin-bottom: 0.6rem;
+}
+
+.sst-hero-desc {
+  font-size: clamp(0.85rem, 2.5vw, 1.15rem);
+}
+
+.sst-hero-btn {
+  font-size: clamp(0.82rem, 2.2vw, 0.95rem);
+}
+
+.sst-hero-founders-img {
+  width: 100%;
+  max-width: 720px;
+  height: auto;
+  max-height: calc(100vh - 170px);
+  object-fit: contain;
+  object-position: bottom center;
+}
+
+@media (max-width: 991.98px) {
+  .sst-hero-founders-img {
+    max-height: 280px;
   }
 }

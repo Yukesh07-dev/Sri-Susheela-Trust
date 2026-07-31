@@ -32,7 +32,7 @@ export const en = {
     p1: 'What started as a modest daily food distribution drive for 50 needy individuals in Chennai has grown into a multi-faceted non-profit movement empowering thousands of families across Tamil Nadu.',
     p2: 'Driven by transparency, accountability, and genuine empathy, our programs encompass daily hot meal distribution (Annadhanam), scholarship funding for rural students, 24/7 senior care shelters, and specialized medical camps.',
     readMore: 'Learn More About Our Journey',
-    founderQuote: '"True service is not charity; it is recognizing our shared humanity and restoring dignity to every soul."',
+    founderQuote: 'True service is not charity; it is recognizing our shared humanity and restoring dignity to every soul.',
     founderTitle: 'Founder & Managing Trustee',
   },
   missionSection: {

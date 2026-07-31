@@ -71,25 +71,25 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onFinish, minDisplay
               />
             </motion.div>
 
-            {/* Title & Subtitle */}
+            {/* Title & Subtitle in Tamil */}
             <motion.h1
               initial={{ y: 15, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.2, duration: 0.7 }}
-              className="fw-extrabold display-6 mb-1 text-gradient-gold font-heading"
-              style={{ letterSpacing: '1.5px' }}
+              className="fw-extrabold display-5 mb-2 text-gradient-gold font-tamil"
+              style={{ letterSpacing: '0.5px' }}
             >
-              SRI SUSHEELA TRUST
+              ஸ்ரீ சுசீலா அறக்கட்டளை
             </motion.h1>
 
             <motion.p
               initial={{ y: 15, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.4, duration: 0.7 }}
-              className="text-light opacity-85 small text-uppercase mb-4.5"
-              style={{ letterSpacing: '2.5px' }}
+              className="text-light opacity-90 small font-tamil mb-4.5"
+              style={{ letterSpacing: '1px', fontSize: '0.95rem' }}
             >
-              People Welfare Group • Nurturing Hope
+              மக்கள் நலக் குழுமம் • நம்பிக்கையை வளர்ப்போம்
             </motion.p>
 
             {/* Smooth Loading Bar */}
