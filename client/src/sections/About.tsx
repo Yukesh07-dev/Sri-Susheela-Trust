@@ -68,17 +68,18 @@ export const AboutSection: React.FC = () => {
                 </div>
 
                 {/* Founders Image */}
-                <div className="position-relative text-center d-flex align-items-center justify-content-center w-100 mt-4 pt-2" style={{ zIndex: 2 }}>
+                <div className="position-relative text-center d-flex align-items-end justify-content-center w-100" style={{ zIndex: 2, marginTop: 'auto' }}>
                   <img
-                    src="/assets/images/founders.png"
+                    src="/assets/images/hero_founders_hd.png"
                     alt="Sri Susheela Trust Founders"
                     className="img-fluid hover-scale transition-all"
                     style={{
-                      maxHeight: '480px',
-                      maxWidth: '540px',
+                      maxHeight: '320px',
+                      maxWidth: '360px',
                       objectFit: 'contain',
-                      transform: 'translateX(-110px)',
-                      filter: 'drop-shadow(0 15px 35px rgba(0, 0, 0, 0.35)) drop-shadow(0 0 30px rgba(255, 215, 0, 0.6))',
+                      filter: 'drop-shadow(0 10px 25px rgba(0, 0, 0, 0.3)) drop-shadow(0 0 20px rgba(255, 215, 0, 0.5))',
+                      maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 80%, rgba(0,0,0,0) 100%)',
+                      WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 80%, rgba(0,0,0,0) 100%)',
                     }}
                   />
                 </div>

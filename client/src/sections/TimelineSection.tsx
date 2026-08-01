@@ -58,23 +58,23 @@ export const TimelineSection: React.FC = () => {
             }}
           />
 
-          <div className="row g-4">
+          <div className="row g-0">
             {MOCK_TIMELINE.map((item, idx) => {
               const isEven = idx % 2 === 0;
               return (
-                <div key={idx} className="col-12">
+                <div key={idx} className="col-12" style={{ marginBottom: '-0.5rem' }}>
                   <motion.div
                     initial={{ opacity: 0, y: 25 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6, delay: idx * 0.15 }}
-                    className="row align-items-center g-3"
+                    className="row align-items-center g-0"
                   >
                     {/* Left or Right Card Content */}
                     <div className={`col-12 col-md-5 ${isEven ? 'text-md-end' : 'order-md-2'}`}>
                       <motion.div
                         whileHover={{ y: -5, scale: 1.015 }}
-                        className="card border-0 rounded-4 p-4 text-start transition-all"
+                        className="card border-0 rounded-4 p-3 text-start transition-all"
                         style={{
                           background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(254, 249, 231, 0.94) 100%)',
                           backdropFilter: 'blur(16px)',
