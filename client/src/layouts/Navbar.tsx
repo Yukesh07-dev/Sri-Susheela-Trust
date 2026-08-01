@@ -5,11 +5,10 @@ import { Heart, Globe, Menu, X, PhoneCall } from 'lucide-react';
 import { TRUST_INFO } from '../constants';
 
 interface NavbarProps {
-  onOpenDonate?: () => void;
   onOpenLanguageModal?: () => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ onOpenDonate, onOpenLanguageModal }) => {
+export const Navbar: React.FC<NavbarProps> = ({ onOpenLanguageModal }) => {
   const { t, i18n } = useTranslation();
   const location = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
@@ -102,7 +101,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenDonate, onOpenLanguageModa
             ))}
           </div>
 
-          {/* Action Area (Language + Donate + Mobile Toggle) */}
+          {/* Action Area (Language + Mobile Toggle) */}
           <div className="sst-navbar__actions d-flex align-items-center gap-2">
             {/* Language Switcher */}
             <button
@@ -113,23 +112,6 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenDonate, onOpenLanguageModa
               <Globe size={15} className="text-warning" />
               <span>{isTamil ? 'EN' : 'தமிழ்'}</span>
             </button>
-
-            <div className="d-none d-sm-block bg-warning opacity-40 mx-1" style={{ width: '1px', height: '20px' }} />
-
-            {/* Donate CTA */}
-            {onOpenDonate && (
-              <>
-                <button
-                  onClick={onOpenDonate}
-                  className="sst-navbar__donate-btn btn btn-sst-gold rounded-pill d-none d-sm-inline-flex align-items-center gap-1.5 shadow-sm"
-                >
-                  <Heart size={16} fill="#120D08" />
-                  <span>{t('nav.donate')}</span>
-                </button>
-
-                <div className="d-none d-xl-block bg-warning opacity-40 mx-1" style={{ width: '1px', height: '20px' }} />
-              </>
-            )}
 
             {/* Mobile Menu Toggle Button */}
             <button
@@ -188,26 +170,11 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenDonate, onOpenLanguageModa
             </div>
 
             {/* Drawer Footer Actions */}
-            <div className="pt-3 border-top mt-auto">
-              {onOpenDonate && (
-                <button
-                  onClick={() => {
-                    setIsMobileMenuOpen(false);
-                    onOpenDonate();
-                  }}
-                  className="btn btn-sst-gold w-100 py-2.5 justify-content-center mb-2"
-                >
-                  <Heart size={18} fill="#120D08" />
-                  {t('nav.donate')}
-                </button>
-              )}
-
-              <div className="text-center small text-muted mt-2">
-                <a href={`tel:${TRUST_INFO.phonePrimary}`} className="text-decoration-none text-navy fw-semibold">
-                  <PhoneCall size={14} className="me-1 text-warning" />
-                  {TRUST_INFO.phonePrimary}
-                </a>
-              </div>
+            <div className="pt-3 border-top mt-auto text-center small text-muted">
+              <a href={`tel:${TRUST_INFO.phonePrimary}`} className="text-decoration-none text-navy fw-semibold">
+                <PhoneCall size={14} className="me-1 text-warning" />
+                {TRUST_INFO.phonePrimary}
+              </a>
             </div>
           </div>
         </div>

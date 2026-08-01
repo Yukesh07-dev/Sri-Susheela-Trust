@@ -1,0 +1,35 @@
+[
+  {
+    "id": "t-1",
+    "name": "R. Lakshmi Ammal",
+    "role": "Anbu Illam Resident (Age 74)",
+    "roleTa": "அன்பு இல்லப் பயனாளி (வயது 74)",
+    "quote": "After losing my family, I felt completely abandoned. Sri Susheela Trust gave me not just shelter, but a warm family filled with love, medical care, and respect.",
+    "quoteTa": "குடும்பத்தை இழந்த பின் எனக்கு வாழ்வே இருண்டது. ஸ்ரீ சுசீலா அறக்கட்டளை எனக்கு தங்குமிடம் மட்டுமின்றி, அன்பு நிறைந்த குடும்பத்தையும் தந்தது.",
+    "avatarUrl": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=300&q=80",
+    "rating": 5,
+    "location": "Chennai"
+  },
+  {
+    "id": "t-2",
+    "name": "K. Karthikeyan",
+    "role": "Vidya Jyothi Scholar (Engineering Student)",
+    "roleTa": "வித்யா ஜோதி அம்மா மாணவர்",
+    "quote": "Without the full scholarship and laptop from Sri Susheela Trust, my dream of pursuing Computer Science Engineering would have remained impossible.",
+    "quoteTa": "இலவச கல்வி உதவித்தொகை மற்றும் கணினி கிடைக்காமல் போயிருந்தால் என் பொறியியல் கனவு நனவாகியிருக்காது.",
+    "avatarUrl": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80",
+    "rating": 5,
+    "location": "Thiruvallur"
+  },
+  {
+    "id": "t-3",
+    "name": "Dr. S. Sundaram, MD",
+    "role": "Chief Medical Volunteer",
+    "roleTa": "தலைமை மருத்துவ ஆலோசகர்",
+    "quote": "I have volunteered in numerous camps, but the organization, dignity, and sincerity of Sri Susheela Trust team is truly world-class.",
+    "quoteTa": "ஸ்ரீ சுசீலா அறக்கட்டளையின் நேர்மையும் அர்ப்பணிப்பும் மருத்துவ முகாம்களை மிகச்சிறப்பாக நடத்த உதவுகிறது.",
+    "avatarUrl": "https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=300&q=80",
+    "rating": 5,
+    "location": "Coimbatore"
+  }
+]

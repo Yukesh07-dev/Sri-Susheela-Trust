@@ -8,7 +8,6 @@ export const TRUST_INFO = {
   tagline: 'Nurturing Hope, Empowering Communities, Serving Humanity',
   taglineTa: 'நம்பிக்கையை வளர்ப்போம், சமுதாயத்தை உயர்த்துவோம், மனிதநேயத்துடன் சேவையாற்றுவோம்',
   regNumber: 'REG-TN/2021/80G/12A/04928',
-  taxBenefitNote: 'Donations to Sri Susheela Trust are 50% Tax Exempted under Section 80G of the Indian Income Tax Act.',
   establishedYear: '2021',
   email: 'srisusilaarakattalai0088@gmail.com',
   phonePrimary: '+91 97105 37506',
@@ -31,14 +30,6 @@ export const TRUST_INFO = {
     twitter: 'https://twitter.com',
     youtube: 'https://youtube.com',
     whatsapp: 'https://wa.me/919710537506',
-  },
-  bankDetails: {
-    accountName: 'Sri Susheela Trust',
-    accountNumber: '3948 5720 1948',
-    bankName: 'State Bank of India',
-    branch: 'Uthandi Branch, Chennai',
-    ifsc: 'SBIN0000800',
-    upiId: 'srisusheelatrust@sbi',
   },
 };
 

@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { MOCK_GALLERY } from '../constants';
+import { apiService } from '../services/api';
+import { GalleryItem } from '../types';
 import { Lightbox } from '../components/common/Lightbox';
 import { Maximize2, Image as ImageIcon } from 'lucide-react';
 
@@ -10,10 +12,21 @@ export const GalleryPage: React.FC = () => {
   const isTamil = i18n.language === 'ta';
   const [activeCategory, setActiveCategory] = useState<string>('all');
   const [activeLightboxIndex, setActiveLightboxIndex] = useState<number | null>(null);
+  const [items, setItems] = useState<GalleryItem[]>(MOCK_GALLERY);
 
-  const filteredItems = activeCategory === 'all'
-    ? MOCK_GALLERY
-    : MOCK_GALLERY.filter((item) => item.category === activeCategory);
+  useEffect(() => {
+    let isMounted = true;
+    apiService.getGalleryItems(activeCategory).then((data) => {
+      if (isMounted && data) {
+        setItems(data);
+      }
+    });
+    return () => {
+      isMounted = false;
+    };
+  }, [activeCategory]);
+
+  const filteredItems = items;
 
   const categories = [
     { key: 'all', label: 'All Photos' },

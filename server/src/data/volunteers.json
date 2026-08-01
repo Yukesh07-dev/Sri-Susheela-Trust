@@ -1,0 +1,29 @@
+[
+  {
+    "id": "VOL-301",
+    "name": "Vikram Mehta",
+    "email": "vikram@example.com",
+    "phone": "+91 98765 43210",
+    "role": "Event Coordinator",
+    "joinedDate": "2026-01-15",
+    "status": "Active"
+  },
+  {
+    "id": "VOL-302",
+    "name": "Neha Verma",
+    "email": "neha@example.com",
+    "phone": "+91 98765 12345",
+    "role": "Medical Volunteer",
+    "joinedDate": "2026-03-20",
+    "status": "Active"
+  },
+  {
+    "id": "VOL-303",
+    "name": "Suresh Rao",
+    "email": "suresh@example.com",
+    "phone": "+91 98765 99887",
+    "role": "Field Worker",
+    "joinedDate": "2026-06-01",
+    "status": "Pending"
+  }
+]

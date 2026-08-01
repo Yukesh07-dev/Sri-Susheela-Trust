@@ -1,18 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { MOCK_EVENTS } from '../constants';
+import { apiService } from '../services/api';
 import { EventItem } from '../types';
 import { Calendar, Clock, MapPin, Users, CheckCircle2, Heart } from 'lucide-react';
 
 export const EventsPage: React.FC = () => {
   const { t, i18n } = useTranslation();
   const isTamil = i18n.language === 'ta';
+  const [events, setEvents] = useState<EventItem[]>(MOCK_EVENTS);
   const [selectedEvent, setSelectedEvent] = useState<EventItem | null>(null);
   const [registered, setRegistered] = useState(false);
 
-  const upcomingEvents = MOCK_EVENTS.filter((e) => e.isUpcoming);
-  const pastEvents = MOCK_EVENTS.filter((e) => !e.isUpcoming);
+  useEffect(() => {
+    let isMounted = true;
+    apiService.getEvents().then((data) => {
+      if (isMounted && data) setEvents(data);
+    });
+    return () => { isMounted = false; };
+  }, []);
+
+  const upcomingEvents = events.filter((e) => e.isUpcoming || e.status === 'Upcoming');
+  const pastEvents = events.filter((e) => !e.isUpcoming && e.status !== 'Upcoming');
 
   const handleRSVP = (e: React.FormEvent) => {
     e.preventDefault();

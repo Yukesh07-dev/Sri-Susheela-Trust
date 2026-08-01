@@ -1,13 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { MOCK_PROGRAMS } from '../constants';
+import { apiService } from '../services/api';
+import { ProgramItem } from '../types';
 import { CheckCircle2 } from 'lucide-react';
 
 export const ProgramsPage: React.FC = () => {
   const { t, i18n } = useTranslation();
   const isTamil = i18n.language === 'ta';
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [programs, setPrograms] = useState<ProgramItem[]>(MOCK_PROGRAMS);
+
+  useEffect(() => {
+    let isMounted = true;
+    apiService.getPrograms().then((data) => {
+      if (isMounted && data) setPrograms(data);
+    });
+    return () => { isMounted = false; };
+  }, []);
 
   const categories = [
     { key: 'all', label: isTamil ? 'அனைத்து திட்டங்கள்' : 'All Initiatives' },
@@ -30,8 +41,8 @@ export const ProgramsPage: React.FC = () => {
   };
 
   const filteredPrograms = selectedCategory === 'all'
-    ? MOCK_PROGRAMS
-    : MOCK_PROGRAMS.filter((p) => p.category === selectedCategory);
+    ? programs
+    : programs.filter((p) => p.category === selectedCategory);
 
   return (
     <div className="py-4 bg-sst-cream position-relative overflow-hidden" style={{ minHeight: '100vh' }}>

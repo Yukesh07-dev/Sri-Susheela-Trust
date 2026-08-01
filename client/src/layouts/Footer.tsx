@@ -43,23 +43,6 @@ export const Footer: React.FC<FooterProps> = () => {
             <p className={`small mb-4 ${isTamil ? 'font-tamil' : ''}`} style={{ color: '#E5E7EB', lineHeight: '1.6' }}>
               {t('footer.description')}
             </p>
-
-            <div
-              className="p-3 rounded-3 mb-3 text-start"
-              style={{
-                background: 'rgba(255, 255, 255, 0.04)',
-                border: '1px solid rgba(252, 211, 77, 0.3)',
-                boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
-              }}
-            >
-              <div className="d-flex align-items-center gap-2 mb-1">
-                <ShieldCheck size={18} style={{ color: '#FCD34D' }} />
-                <strong className="small" style={{ color: '#FCD34D' }}>80G & 12A Certified NGO</strong>
-              </div>
-              <span className={`small d-block ${isTamil ? 'font-tamil' : ''}`} style={{ color: '#E5E7EB', fontSize: '0.8rem' }}>
-                {t('footer.regNotice')}
-              </span>
-            </div>
           </div>
 
           {/* Quick Navigation Links Column */}

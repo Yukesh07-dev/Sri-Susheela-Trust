@@ -1,14 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { MOCK_NEWS } from '../constants';
+import { apiService } from '../services/api';
 import { NewsArticle } from '../types';
 import { Calendar, Clock, User, ArrowRight } from 'lucide-react';
 
 export const NewsPage: React.FC = () => {
   const { t, i18n } = useTranslation();
   const isTamil = i18n.language === 'ta';
+  const [news, setNews] = useState<NewsArticle[]>(MOCK_NEWS);
   const [selectedArticle, setSelectedArticle] = useState<NewsArticle | null>(null);
+
+  useEffect(() => {
+    let isMounted = true;
+    apiService.getNews().then((data) => {
+      if (isMounted && data) setNews(data);
+    });
+    return () => { isMounted = false; };
+  }, []);
 
   return (
     <div className="py-4 bg-sst-cream position-relative overflow-hidden" style={{ minHeight: '100vh' }}>
@@ -50,7 +60,7 @@ export const NewsPage: React.FC = () => {
 
       <div className="container-fluid px-3 px-lg-5 max-w-7xl position-relative" style={{ zIndex: 1 }}>
         <div className="row g-4 mb-5">
-          {MOCK_NEWS.map((article, idx) => (
+          {news.map((article, idx) => (
             <div key={article.id} className="col-12 col-md-6">
               <motion.div
                 initial={{ opacity: 0, y: 25 }}

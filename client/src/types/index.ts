@@ -31,6 +31,7 @@ export interface EventItem {
   imageUrl: string;
   isUpcoming: boolean;
   registeredCount: number;
+  status?: string;
 }
 
 export interface GalleryItem {

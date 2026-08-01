@@ -1,12 +1,23 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { MOCK_TESTIMONIALS } from '../constants';
+import { apiService } from '../services/api';
+import { TestimonialItem } from '../types';
 import { Star, Quote, Heart } from 'lucide-react';
 
 export const TestimonialsSection: React.FC = () => {
   const { t, i18n } = useTranslation();
   const isTamil = i18n.language === 'ta';
+  const [testimonials, setTestimonials] = useState<TestimonialItem[]>(MOCK_TESTIMONIALS);
+
+  useEffect(() => {
+    let isMounted = true;
+    apiService.getTestimonials().then((data) => {
+      if (isMounted && data) setTestimonials(data);
+    });
+    return () => { isMounted = false; };
+  }, []);
 
   return (
     <section id="testimonials" className="section-padding bg-sst-cream position-relative overflow-hidden">
@@ -48,7 +59,7 @@ export const TestimonialsSection: React.FC = () => {
 
         {/* Testimonials Cards Grid */}
         <div className="row g-4">
-          {MOCK_TESTIMONIALS.map((item, idx) => (
+          {testimonials.map((item, idx) => (
             <div key={item.id} className="col-12 col-md-4">
               <motion.div
                 initial={{ opacity: 0, y: 25 }}

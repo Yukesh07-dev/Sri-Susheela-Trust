@@ -1,0 +1,53 @@
+[
+  {
+    "id": "event-1",
+    "title": "Mega Free Multi-Specialty Health Camp",
+    "titleTa": "மெகா இலவச பன்முக மருத்துவ முகாம்",
+    "date": "August 15, 2026",
+    "time": "08:30 AM - 04:00 PM",
+    "location": "Sri Susheela Community Hall, Kanchipuram",
+    "locationTa": "ஸ்ரீ சுசீலா சமுதாயக்கூடம், காஞ்சிபுரம்",
+    "shortDesc": "Free Cardiology, Ophthalmology, Pediatrics, and Orthopedic consultations along with free medicine distribution.",
+    "shortDescTa": "இலவச இதய நோய், கண், குழந்தைகள் மற்றும் எலும்பு சிகிச்சை பரிசோதனைகள் மற்றும் மருந்துகள்.",
+    "category": "Healthcare",
+    "imageUrl": "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=800&q=80",
+    "isUpcoming": true,
+    "status": "Upcoming",
+    "registeredCount": 420,
+    "attendees": 420
+  },
+  {
+    "id": "event-2",
+    "title": "Educational Kit & Laptop Distribution Drive",
+    "titleTa": "கல்வி உபகரணங்கள் மற்றும் மடிக்கணினி வழங்கும் விழா",
+    "date": "September 5, 2026",
+    "time": "10:00 AM - 01:00 PM",
+    "location": "Government Higher Secondary School Auditorium, Thiruvallur",
+    "locationTa": "அரசு மேல்நிலைப்பள்ளி அரங்கம், திருவள்ளூர்",
+    "shortDesc": "Distributing 500+ student learning kits and 50 refurbished laptops to underprivileged college scholars.",
+    "shortDescTa": "500+ மாணவர்களுக்கு இலவச பாடப்புத்தகங்கள் மற்றும் 50 மடிக்கணினிகள் வழங்கல்.",
+    "category": "Education",
+    "imageUrl": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=800&q=80",
+    "isUpcoming": true,
+    "status": "Upcoming",
+    "registeredCount": 290,
+    "attendees": 290
+  },
+  {
+    "id": "event-3",
+    "title": "Grand Annadhanam Mahotsavam 2026",
+    "titleTa": "மாபெரும் அன்னதான மஹோத்சவம் 2026",
+    "date": "July 10, 2026",
+    "time": "07:00 AM - 08:00 PM",
+    "location": "Sri Susheela Trust Headquarters, Chennai",
+    "locationTa": "ஸ்ரீ சுசீலா அறக்கட்டளை தலைமையகம், சென்னை",
+    "shortDesc": "Served traditional festive banana leaf feast for over 10,000 people in a single day.",
+    "shortDescTa": "ஒரே நாளில் 10,000-க்கும் மேற்பட்டோருக்கு பாரம்பரிய வாழை இலை விருந்து உபசரிப்பு.",
+    "category": "Annadhanam",
+    "imageUrl": "https://images.unsplash.com/photo-1555244162-803834f70033?auto=format&fit=crop&w=800&q=80",
+    "isUpcoming": false,
+    "status": "Completed",
+    "registeredCount": 10500,
+    "attendees": 10500
+  }
+]

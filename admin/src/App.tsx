@@ -1,10 +1,12 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { DashboardPage } from './pages/DashboardPage';
-import { DonationsPage } from './pages/DonationsPage';
+import { ProgramsPage } from './pages/ProgramsPage';
 import { EventsPage } from './pages/EventsPage';
-import { VolunteersPage } from './pages/VolunteersPage';
+import { GalleryPage } from './pages/GalleryPage';
 import { NewsPage } from './pages/NewsPage';
+import { TestimonialsPage } from './pages/TestimonialsPage';
+import { VolunteersPage } from './pages/VolunteersPage';
 import { SettingsPage } from './pages/SettingsPage';
 
 export const App: React.FC = () => {
@@ -12,10 +14,12 @@ export const App: React.FC = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<DashboardPage />} />
-        <Route path="/donations" element={<DonationsPage />} />
+        <Route path="/programs" element={<ProgramsPage />} />
         <Route path="/events" element={<EventsPage />} />
-        <Route path="/volunteers" element={<VolunteersPage />} />
+        <Route path="/gallery" element={<GalleryPage />} />
         <Route path="/news" element={<NewsPage />} />
+        <Route path="/testimonials" element={<TestimonialsPage />} />
+        <Route path="/volunteers" element={<VolunteersPage />} />
         <Route path="/settings" element={<SettingsPage />} />
       </Routes>
     </BrowserRouter>
