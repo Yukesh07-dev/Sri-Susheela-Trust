@@ -1,0 +1,43 @@
+[
+  {
+    "id": "CNT-595",
+    "name": "Yukesh siuu",
+    "email": "yukeshyuki96000@gmail.com",
+    "phone": "+919342480882",
+    "subject": "General Inquiry",
+    "message": "its just an general enquiry",
+    "status": "Pending",
+    "createdAt": "2026-08-03T10:59:06.520Z"
+  },
+  {
+    "id": "CNT-101",
+    "name": "Kavitha Ramakrishnan",
+    "email": "kavitha.ram@gmail.com",
+    "phone": "+91 98401 23456",
+    "subject": "Annadhanam Donation",
+    "message": "Hello, I would like to sponsor Sunday lunch Annadhanam for 200 people at your Uthandi center.",
+    "status": "Pending",
+    "createdAt": "2026-08-03T05:03:22.706Z"
+  },
+  {
+    "id": "CNT-102",
+    "name": "Santhosh Kumar",
+    "email": "santhosh.k@techcorp.in",
+    "phone": "+91 97908 76543",
+    "subject": "Corporate CSR",
+    "message": "We are looking to partner with Sri Susheela Trust for our Q3 CSR education kit distribution drive.",
+    "status": "Replied",
+    "adminNotes": "Spoke on phone, scheduled meeting for Thursday.",
+    "createdAt": "2026-08-02T10:03:22.711Z"
+  },
+  {
+    "id": "CNT-103",
+    "name": "Meena Sundaram",
+    "email": "meena.s@yahoo.co.in",
+    "phone": "+91 94440 98765",
+    "subject": "General Inquiry",
+    "message": "Can I visit the trust headquarters this Saturday evening between 4 PM and 6 PM?",
+    "status": "Read",
+    "createdAt": "2026-08-01T10:03:22.711Z"
+  }
+]

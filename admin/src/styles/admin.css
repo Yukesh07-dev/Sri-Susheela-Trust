@@ -42,12 +42,27 @@ body {
 /* Sidebar */
 .admin-sidebar {
   width: 260px;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  flex-shrink: 0;
+  overflow-y: auto;
   background-color: var(--bg-sidebar);
   border-right: 1px solid var(--border-color);
   display: flex;
   flex-direction: column;
   padding: 1.5rem 1rem;
   transition: all 0.3s ease;
+  z-index: 100;
+}
+
+.admin-sidebar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.admin-sidebar::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
 }
 
 .brand-header {
@@ -121,6 +136,10 @@ body {
   align-items: center;
   justify-content: space-between;
   background-color: var(--bg-sidebar);
+  position: sticky;
+  top: 0;
+  z-index: 90;
+  backdrop-filter: blur(8px);
 }
 
 .header-title h2 {

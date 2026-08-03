@@ -7,20 +7,88 @@ import { GalleryPage } from './pages/GalleryPage';
 import { NewsPage } from './pages/NewsPage';
 import { TestimonialsPage } from './pages/TestimonialsPage';
 import { VolunteersPage } from './pages/VolunteersPage';
+import { ContactsPage } from './pages/ContactsPage';
 import { SettingsPage } from './pages/SettingsPage';
+import { LoginPage } from './pages/LoginPage';
+import { ProtectedRoute } from './components/ProtectedRoute';
 
 export const App: React.FC = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<DashboardPage />} />
-        <Route path="/programs" element={<ProgramsPage />} />
-        <Route path="/events" element={<EventsPage />} />
-        <Route path="/gallery" element={<GalleryPage />} />
-        <Route path="/news" element={<NewsPage />} />
-        <Route path="/testimonials" element={<TestimonialsPage />} />
-        <Route path="/volunteers" element={<VolunteersPage />} />
-        <Route path="/settings" element={<SettingsPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <DashboardPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/programs"
+          element={
+            <ProtectedRoute>
+              <ProgramsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/events"
+          element={
+            <ProtectedRoute>
+              <EventsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/gallery"
+          element={
+            <ProtectedRoute>
+              <GalleryPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/news"
+          element={
+            <ProtectedRoute>
+              <NewsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/testimonials"
+          element={
+            <ProtectedRoute>
+              <TestimonialsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/volunteers"
+          element={
+            <ProtectedRoute>
+              <VolunteersPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/contacts"
+          element={
+            <ProtectedRoute>
+              <ContactsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/settings"
+          element={
+            <ProtectedRoute>
+              <SettingsPage />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );

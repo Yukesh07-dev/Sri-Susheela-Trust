@@ -17,13 +17,24 @@ export const GallerySection: React.FC = () => {
 
   useEffect(() => {
     let isMounted = true;
-    apiService.getGalleryItems(activeCategory).then((data) => {
-      if (isMounted && data) {
-        setItems(data);
-      }
-    });
+    const fetchGallery = () => {
+      apiService.getGalleryItems(activeCategory).then((data) => {
+        if (isMounted && data) {
+          setItems(data);
+        }
+      });
+    };
+
+    fetchGallery();
+
+    const handleFocus = () => fetchGallery();
+    window.addEventListener('focus', handleFocus);
+    const timer = setInterval(fetchGallery, 3000);
+
     return () => {
       isMounted = false;
+      window.removeEventListener('focus', handleFocus);
+      clearInterval(timer);
     };
   }, [activeCategory]);
 

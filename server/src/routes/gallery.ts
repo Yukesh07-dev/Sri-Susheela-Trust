@@ -3,6 +3,8 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import multer from 'multer';
+import mongoose from 'mongoose';
+import { Gallery } from '../models/Gallery.js';
 
 export const galleryRouter = Router();
 
@@ -39,7 +41,7 @@ const upload = multer({
   },
 });
 
-// JSON Persistence Helper
+// JSON Persistence Helper Fallback
 const DATA_FILE = path.join(__dirname, '../data/gallery.json');
 
 function getGalleryData(): any[] {
@@ -67,9 +69,23 @@ function saveGalleryData(data: any[]) {
   }
 }
 
-// GET /api/gallery
-galleryRouter.get('/', (req, res) => {
+// GET /api/gallery - Read from MongoDB Atlas
+galleryRouter.get('/', async (req, res) => {
   const category = req.query.category as string;
+
+  if (mongoose.connection.readyState === 1) {
+    try {
+      const query: any = {};
+      if (category && category !== 'all') {
+        query.category = category;
+      }
+      const data = await Gallery.find(query).sort({ createdAt: -1 });
+      return res.json({ success: true, count: data.length, data });
+    } catch (err) {
+      console.error('MongoDB Gallery Find Error:', err);
+    }
+  }
+
   let data = getGalleryData();
   if (category && category !== 'all') {
     data = data.filter((item) => item.category === category);
@@ -98,17 +114,41 @@ galleryRouter.post('/upload', (req, res) => {
   });
 });
 
-// POST /api/gallery - Create new gallery record
-galleryRouter.post('/', (req, res) => {
+// POST /api/gallery - Create new gallery item in MongoDB Atlas
+galleryRouter.post('/', async (req, res) => {
   const { title, titleTa, category, description, mediaUrl, thumbnailUrl } = req.body;
 
   if (!title || !mediaUrl) {
     return res.status(400).json({ success: false, message: 'Title and image URL are required' });
   }
 
+  const id = `gal-${Date.now()}`;
+
+  if (mongoose.connection.readyState === 1) {
+    try {
+      const newGal = await Gallery.create({
+        id,
+        title,
+        titleTa: titleTa || title,
+        category: category || 'general',
+        type: 'image',
+        mediaUrl,
+        thumbnailUrl: thumbnailUrl || mediaUrl,
+        description: description || '',
+      });
+      return res.status(201).json({
+        success: true,
+        message: 'Gallery item saved to MongoDB Atlas',
+        data: newGal,
+      });
+    } catch (err) {
+      console.error('MongoDB Gallery Create Error:', err);
+    }
+  }
+
   const items = getGalleryData();
   const newItem = {
-    id: `gal-${Date.now()}`,
+    id,
     title,
     titleTa: titleTa || title,
     category: category || 'general',
@@ -129,9 +169,25 @@ galleryRouter.post('/', (req, res) => {
   });
 });
 
-// PUT /api/gallery/:id - Update gallery item
-galleryRouter.put('/:id', (req, res) => {
+// PUT /api/gallery/:id - Update gallery item in MongoDB Atlas
+galleryRouter.put('/:id', async (req, res) => {
   const { id } = req.params;
+
+  if (mongoose.connection.readyState === 1) {
+    try {
+      const updated = await Gallery.findOneAndUpdate(
+        { id },
+        { ...req.body, updatedAt: new Date() },
+        { new: true }
+      );
+      if (updated) {
+        return res.json({ success: true, message: 'Gallery item updated in MongoDB Atlas', data: updated });
+      }
+    } catch (err) {
+      console.error('MongoDB Gallery Update Error:', err);
+    }
+  }
+
   const items = getGalleryData();
   const index = items.findIndex((item) => item.id === id);
 
@@ -139,51 +195,28 @@ galleryRouter.put('/:id', (req, res) => {
     return res.status(404).json({ success: false, message: 'Gallery item not found' });
   }
 
-  items[index] = {
-    ...items[index],
-    ...req.body,
-    updatedAt: new Date().toISOString(),
-  };
-
+  items[index] = { ...items[index], ...req.body };
   saveGalleryData(items);
 
-  res.json({
-    success: true,
-    message: 'Gallery item updated successfully',
-    data: items[index],
-  });
+  res.json({ success: true, message: 'Gallery item updated successfully', data: items[index] });
 });
 
-// DELETE /api/gallery/:id - Delete gallery item
-galleryRouter.delete('/:id', (req, res) => {
+// DELETE /api/gallery/:id - Delete gallery item from MongoDB Atlas
+galleryRouter.delete('/:id', async (req, res) => {
   const { id } = req.params;
-  const items = getGalleryData();
-  const item = items.find((i) => i.id === id);
 
-  if (!item) {
-    return res.status(404).json({ success: false, message: 'Gallery item not found' });
-  }
-
-  // If local uploaded file, delete it from disk
-  if (item.mediaUrl && item.mediaUrl.includes('/uploads/')) {
-    const filename = item.mediaUrl.split('/uploads/').pop();
-    if (filename) {
-      const filePath = path.join(UPLOADS_DIR, filename);
-      if (fs.existsSync(filePath)) {
-        try {
-          fs.unlinkSync(filePath);
-        } catch (e) {
-          console.warn('Could not delete file:', filePath);
-        }
-      }
+  if (mongoose.connection.readyState === 1) {
+    try {
+      await Gallery.deleteOne({ id });
+      return res.json({ success: true, message: 'Gallery item deleted from MongoDB Atlas' });
+    } catch (err) {
+      console.error('MongoDB Gallery Delete Error:', err);
     }
   }
 
-  const updatedItems = items.filter((i) => i.id !== id);
-  saveGalleryData(updatedItems);
+  const items = getGalleryData();
+  const filtered = items.filter((item) => item.id !== id);
+  saveGalleryData(filtered);
 
-  res.json({
-    success: true,
-    message: 'Gallery item deleted successfully',
-  });
+  res.json({ success: true, message: 'Gallery item deleted successfully' });
 });

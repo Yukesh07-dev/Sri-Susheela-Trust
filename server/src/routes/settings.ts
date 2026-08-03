@@ -2,6 +2,8 @@ import { Router } from 'express';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import mongoose from 'mongoose';
+import { Settings } from '../models/Settings.js';
 
 export const settingsRouter = Router();
 
@@ -65,14 +67,25 @@ function saveSettingsData(data: any) {
   }
 }
 
-// GET /api/settings
-settingsRouter.get('/', (_req, res) => {
+// GET /api/settings - Read from MongoDB Atlas
+settingsRouter.get('/', async (_req, res) => {
+  if (mongoose.connection.readyState === 1) {
+    try {
+      const doc = await Settings.findOne({ key: 'TRUST_INFO' });
+      if (doc && doc.data) {
+        return res.json({ success: true, data: doc.data });
+      }
+    } catch (err) {
+      console.error('MongoDB Settings Find Error:', err);
+    }
+  }
+
   const data = getSettingsData();
   res.json({ success: true, data });
 });
 
-// PUT /api/settings
-settingsRouter.put('/', (req, res) => {
+// PUT /api/settings - Update settings in MongoDB Atlas
+settingsRouter.put('/', async (req, res) => {
   const current = getSettingsData();
   const updated = {
     ...current,
@@ -87,6 +100,20 @@ settingsRouter.put('/', (req, res) => {
     },
     updatedAt: new Date().toISOString(),
   };
+
+  if (mongoose.connection.readyState === 1) {
+    try {
+      const savedDoc = await Settings.findOneAndUpdate(
+        { key: 'TRUST_INFO' },
+        { key: 'TRUST_INFO', data: updated, updatedAt: new Date() },
+        { upsert: true, new: true }
+      );
+      saveSettingsData(updated);
+      return res.json({ success: true, message: 'Settings updated in MongoDB Atlas', data: savedDoc.data });
+    } catch (err) {
+      console.error('MongoDB Settings Update Error:', err);
+    }
+  }
 
   saveSettingsData(updated);
   res.json({ success: true, message: 'Settings updated successfully', data: updated });

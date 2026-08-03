@@ -1,0 +1,9 @@
+[
+  {
+    "id": "USR-001",
+    "name": "Sri Susheela Admin",
+    "email": "admin@srisusheelatrust.org",
+    "passwordHash": "$2a$10$7vN3gH8T3J8n3U4jV.r2v.kQ3X/7J7Q7J7Q7J7Q7J7Q7J7Q7J7Q7",
+    "role": "admin"
+  }
+]

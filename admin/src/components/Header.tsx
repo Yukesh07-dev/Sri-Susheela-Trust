@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Bell, Search, Globe } from 'lucide-react';
+import { useNavigate, Link } from 'react-router-dom';
+import { Bell, Search, Globe, ChevronDown, Settings, Mail, LogOut, ShieldCheck, User } from 'lucide-react';
 
 interface HeaderProps {
   title: string;
@@ -8,12 +9,37 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({ title }) => {
   const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
   const currentLang = i18n.language || 'en';
+
+  const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Get user info from localStorage
+  const storedUser = localStorage.getItem('sst_admin_user');
+  const user = storedUser ? JSON.parse(storedUser) : { name: 'Sri Susheela Admin', email: 'admin@srisusheelatrust.org' };
 
   const toggleLanguage = () => {
     const nextLang = currentLang === 'en' ? 'ta' : 'en';
     i18n.changeLanguage(nextLang);
   };
+
+  const handleLogout = () => {
+    localStorage.removeItem('sst_admin_token');
+    localStorage.removeItem('sst_admin_user');
+    navigate('/login');
+  };
+
+  // Close dropdown on click outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   return (
     <header className="admin-header">
@@ -80,8 +106,184 @@ export const Header: React.FC<HeaderProps> = ({ title }) => {
           <Bell size={18} />
         </button>
 
-        <div className="admin-avatar" title={t('administrator')}>
-          AD
+        {/* Interactive Admin Profile Dropdown Container */}
+        <div style={{ position: 'relative' }} ref={dropdownRef}>
+          <div
+            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.65rem',
+              padding: '0.35rem 0.75rem 0.35rem 0.4rem',
+              background: isDropdownOpen ? 'rgba(30, 41, 59, 0.95)' : 'rgba(15, 23, 42, 0.8)',
+              border: '1.5px solid rgba(56, 189, 248, 0.45)',
+              borderRadius: '30px',
+              boxShadow: '0 4px 15px rgba(0, 0, 0, 0.25), 0 0 12px rgba(56, 189, 248, 0.2)',
+              cursor: 'pointer',
+              transition: 'all 0.2s ease-in-out',
+            }}
+            title="Click to view Profile Menu"
+          >
+            <div style={{ position: 'relative', width: '38px', height: '38px' }}>
+              <img
+                src="/logo.jpg"
+                alt="Admin Logo"
+                style={{
+                  width: '38px',
+                  height: '38px',
+                  borderRadius: '50%',
+                  objectFit: 'cover',
+                  border: '2px solid #38BDF8',
+                  boxShadow: '0 0 10px rgba(56, 189, 248, 0.5)',
+                }}
+              />
+              <span
+                style={{
+                  position: 'absolute',
+                  bottom: '1px',
+                  right: '1px',
+                  width: '10px',
+                  height: '10px',
+                  backgroundColor: '#10B981',
+                  borderRadius: '50%',
+                  border: '2px solid #0F172A',
+                  boxShadow: '0 0 8px #10B981',
+                }}
+              />
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1.1 }}>
+              <span style={{ color: '#F8FAFC', fontSize: '0.85rem', fontWeight: 700 }}>
+                {t('administrator') || 'Admin'}
+              </span>
+              <span style={{ color: '#10B981', fontSize: '0.72rem', fontWeight: 600 }}>
+                ● Online
+              </span>
+            </div>
+            <ChevronDown size={16} color="#38BDF8" style={{ transform: isDropdownOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.2s ease' }} />
+          </div>
+
+          {/* Floating Dropdown Card */}
+          {isDropdownOpen && (
+            <div
+              style={{
+                position: 'absolute',
+                top: 'calc(100% + 10px)',
+                right: 0,
+                width: '260px',
+                background: '#0F172A',
+                border: '1.5px solid rgba(56, 189, 248, 0.3)',
+                borderRadius: '16px',
+                boxShadow: '0 20px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(56, 189, 248, 0.15)',
+                padding: '1rem',
+                zIndex: 999,
+                animation: 'fadeIn 0.2s ease-in-out',
+              }}
+            >
+              {/* Header Info */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', paddingBottom: '0.85rem', borderBottom: '1px solid #1E293B' }}>
+                <div
+                  style={{
+                    width: '42px',
+                    height: '42px',
+                    borderRadius: '50%',
+                    background: 'linear-gradient(135deg, #0284C7 0%, #0369A1 100%)',
+                    border: '1.5px solid #38BDF8',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: '#FFFFFF',
+                  }}
+                >
+                  <ShieldCheck size={22} />
+                </div>
+                <div style={{ overflow: 'hidden' }}>
+                  <div style={{ color: '#F8FAFC', fontWeight: 700, fontSize: '0.92rem', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>
+                    {user.name || 'Sri Susheela Admin'}
+                  </div>
+                  <div style={{ color: '#94A3B8', fontSize: '0.78rem', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>
+                    {user.email}
+                  </div>
+                  <span style={{ display: 'inline-block', background: 'rgba(56, 189, 248, 0.15)', color: '#38BDF8', fontSize: '0.68rem', fontWeight: 700, padding: '0.1rem 0.4rem', borderRadius: '4px', marginTop: '0.2rem' }}>
+                    Super Admin
+                  </span>
+                </div>
+              </div>
+
+              {/* Menu Items */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem', marginTop: '0.75rem' }}>
+                <Link
+                  to="/settings"
+                  onClick={() => setIsDropdownOpen(false)}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.65rem',
+                    padding: '0.6rem 0.75rem',
+                    borderRadius: '8px',
+                    color: '#E2E8F0',
+                    textDecoration: 'none',
+                    fontSize: '0.88rem',
+                    fontWeight: 600,
+                    transition: 'background-color 0.15s ease',
+                  }}
+                  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#1E293B')}
+                  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
+                >
+                  <Settings size={16} color="#38BDF8" />
+                  <span>Account Settings</span>
+                </Link>
+
+                <Link
+                  to="/contacts"
+                  onClick={() => setIsDropdownOpen(false)}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.65rem',
+                    padding: '0.6rem 0.75rem',
+                    borderRadius: '8px',
+                    color: '#E2E8F0',
+                    textDecoration: 'none',
+                    fontSize: '0.88rem',
+                    fontWeight: 600,
+                    transition: 'background-color 0.15s ease',
+                  }}
+                  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#1E293B')}
+                  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
+                >
+                  <Mail size={16} color="#38BDF8" />
+                  <span>Contact Requests</span>
+                </Link>
+
+                <div style={{ height: '1px', background: '#1E293B', margin: '0.25rem 0' }} />
+
+                <button
+                  onClick={handleLogout}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.65rem',
+                    padding: '0.6rem 0.75rem',
+                    borderRadius: '8px',
+                    color: '#EF4444',
+                    background: 'none',
+                    border: 'none',
+                    width: '100%',
+                    textAlign: 'left',
+                    fontSize: '0.88rem',
+                    fontWeight: 700,
+                    cursor: 'pointer',
+                    transition: 'background-color 0.15s ease',
+                  }}
+                  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'rgba(239, 68, 68, 0.1)')}
+                  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
+                >
+                  <LogOut size={16} color="#EF4444" />
+                  <span>Sign Out</span>
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </header>

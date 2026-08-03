@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { DashboardStats, EventItem, Volunteer, GalleryItem, ProgramItem, NewsArticle, TestimonialItem, TrustInfo } from '../types';
+import { DashboardStats, EventItem, Volunteer, GalleryItem, ProgramItem, NewsArticle, TestimonialItem, TrustInfo, ContactInquiry } from '../types';
 
 const API_BASE_URL = 'http://localhost:5000/api';
 
@@ -375,18 +375,77 @@ export const galleryApi = {
   },
 };
 
+// Contact Inquiries API
+export const contactsApi = {
+  getContacts: async (): Promise<ContactInquiry[]> => {
+    try {
+      const res = await api.get('/contact');
+      if (res.data?.data) return res.data.data;
+    } catch { }
+    return getLocalItem<ContactInquiry>('SST_LOCAL_CONTACTS', []);
+  },
+
+  createContact: async (data: Partial<ContactInquiry>): Promise<ContactInquiry> => {
+    const newContact: ContactInquiry = {
+      id: `CNT-${Date.now()}`,
+      name: data.name || '',
+      email: data.email || 'N/A',
+      phone: data.phone || '',
+      subject: data.subject || 'General Inquiry',
+      message: data.message || '',
+      status: data.status || 'Pending',
+      adminNotes: data.adminNotes || '',
+      createdAt: new Date().toISOString(),
+    };
+    try {
+      const res = await api.post('/contact', data);
+      if (res.data?.data) return res.data.data;
+    } catch { }
+    const local = getLocalItem<ContactInquiry>('SST_LOCAL_CONTACTS', []);
+    local.unshift(newContact);
+    setLocalItem('SST_LOCAL_CONTACTS', local);
+    return newContact;
+  },
+
+  updateContact: async (id: string, data: Partial<ContactInquiry>): Promise<ContactInquiry> => {
+    try {
+      const res = await api.put(`/contact/${id}`, data);
+      if (res.data?.data) return res.data.data;
+    } catch { }
+    const local = getLocalItem<ContactInquiry>('SST_LOCAL_CONTACTS', []);
+    const idx = local.findIndex((i) => i.id === id);
+    if (idx !== -1) {
+      local[idx] = { ...local[idx], ...data, updatedAt: new Date().toISOString() };
+      setLocalItem('SST_LOCAL_CONTACTS', local);
+      return local[idx];
+    }
+    return { id, ...data } as ContactInquiry;
+  },
+
+  deleteContact: async (id: string): Promise<boolean> => {
+    try {
+      await api.delete(`/contact/${id}`);
+    } catch { }
+    const local = getLocalItem<ContactInquiry>('SST_LOCAL_CONTACTS', []);
+    setLocalItem('SST_LOCAL_CONTACTS', local.filter((i) => i.id !== id));
+    return true;
+  },
+};
+
 // Dashboard Stats Helper
 export const getDashboardStats = async (): Promise<DashboardStats> => {
-  const [progs, evts, vols, gals] = await Promise.all([
+  const [progs, evts, vols, gals, cnts] = await Promise.all([
     programsApi.getPrograms(),
     eventsApi.getEvents(),
     volunteersApi.getVolunteers(),
     galleryApi.getGalleryItems(),
+    contactsApi.getContacts(),
   ]);
   return {
     activePrograms: progs.length,
     activeEvents: evts.length,
     registeredVolunteers: vols.length,
     mediaGalleryItems: gals.length,
+    contactInquiries: cnts.length,
   };
 };

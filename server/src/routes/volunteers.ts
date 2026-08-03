@@ -2,6 +2,8 @@ import { Router } from 'express';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import mongoose from 'mongoose';
+import { Volunteer } from '../models/Volunteer.js';
 
 export const volunteersRouter = Router();
 
@@ -38,14 +40,23 @@ function saveVolunteersData(data: any[]) {
   }
 }
 
-// GET /api/volunteers
-volunteersRouter.get('/', (_req, res) => {
+// GET /api/volunteers - Read from MongoDB Atlas
+volunteersRouter.get('/', async (_req, res) => {
+  if (mongoose.connection.readyState === 1) {
+    try {
+      const data = await Volunteer.find().sort({ createdAt: -1 });
+      return res.json({ success: true, count: data.length, data });
+    } catch (err) {
+      console.error('MongoDB Volunteer Find Error:', err);
+    }
+  }
+
   const data = getVolunteersData();
   res.json({ success: true, count: data.length, data });
 });
 
-// POST /api/volunteers
-volunteersRouter.post('/', (req, res) => {
+// POST /api/volunteers - Create new volunteer in MongoDB Atlas
+volunteersRouter.post('/', async (req, res) => {
   const name = req.body.name || req.body.fullName;
   const phone = req.body.phone;
   const email = req.body.email;
@@ -56,9 +67,33 @@ volunteersRouter.post('/', (req, res) => {
     return res.status(400).json({ success: false, message: 'Name and Phone number are required' });
   }
 
+  const id = `VOL-${Math.floor(300 + Math.random() * 600)}`;
+
+  if (mongoose.connection.readyState === 1) {
+    try {
+      const newVol = await Volunteer.create({
+        id,
+        name,
+        email: email || 'N/A',
+        phone,
+        role,
+        message,
+        joinedDate: new Date().toISOString().split('T')[0],
+        status: 'Pending',
+      });
+      return res.status(201).json({
+        success: true,
+        message: 'Volunteer application saved to MongoDB Atlas',
+        data: newVol,
+      });
+    } catch (err) {
+      console.error('MongoDB Volunteer Create Error:', err);
+    }
+  }
+
   const items = getVolunteersData();
   const newVolunteer = {
-    id: `VOL-${Math.floor(300 + Math.random() * 600)}`,
+    id,
     name,
     email: email || 'N/A',
     phone,
@@ -74,8 +109,23 @@ volunteersRouter.post('/', (req, res) => {
   res.status(201).json({ success: true, message: 'Volunteer application submitted successfully', data: newVolunteer });
 });
 
-// PUT /api/volunteers/:id
-volunteersRouter.put('/:id', (req, res) => {
+// PUT /api/volunteers/:id - Update volunteer status in MongoDB Atlas
+volunteersRouter.put('/:id', async (req, res) => {
+  if (mongoose.connection.readyState === 1) {
+    try {
+      const updated = await Volunteer.findOneAndUpdate(
+        { id: req.params.id },
+        { ...req.body, updatedAt: new Date() },
+        { new: true }
+      );
+      if (updated) {
+        return res.json({ success: true, message: 'Volunteer status updated in MongoDB Atlas', data: updated });
+      }
+    } catch (err) {
+      console.error('MongoDB Volunteer Update Error:', err);
+    }
+  }
+
   const items = getVolunteersData();
   const index = items.findIndex((v) => v.id === req.params.id);
   if (index === -1) return res.status(404).json({ success: false, message: 'Volunteer not found' });
@@ -90,8 +140,17 @@ volunteersRouter.put('/:id', (req, res) => {
   res.json({ success: true, message: 'Volunteer status updated', data: items[index] });
 });
 
-// DELETE /api/volunteers/:id
-volunteersRouter.delete('/:id', (req, res) => {
+// DELETE /api/volunteers/:id - Delete volunteer from MongoDB Atlas
+volunteersRouter.delete('/:id', async (req, res) => {
+  if (mongoose.connection.readyState === 1) {
+    try {
+      await Volunteer.deleteOne({ id: req.params.id });
+      return res.json({ success: true, message: 'Volunteer deleted from MongoDB Atlas' });
+    } catch (err) {
+      console.error('MongoDB Volunteer Delete Error:', err);
+    }
+  }
+
   const items = getVolunteersData();
   const filtered = items.filter((v) => v.id !== req.params.id);
   saveVolunteersData(filtered);

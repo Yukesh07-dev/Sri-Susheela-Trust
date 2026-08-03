@@ -13,10 +13,23 @@ export const TestimonialsSection: React.FC = () => {
 
   useEffect(() => {
     let isMounted = true;
-    apiService.getTestimonials().then((data) => {
-      if (isMounted && data) setTestimonials(data);
-    });
-    return () => { isMounted = false; };
+    const fetchTestimonials = () => {
+      apiService.getTestimonials().then((data) => {
+        if (isMounted && data) setTestimonials(data);
+      });
+    };
+
+    fetchTestimonials();
+
+    const handleFocus = () => fetchTestimonials();
+    window.addEventListener('focus', handleFocus);
+    const timer = setInterval(fetchTestimonials, 3000);
+
+    return () => {
+      isMounted = false;
+      window.removeEventListener('focus', handleFocus);
+      clearInterval(timer);
+    };
   }, []);
 
   return (

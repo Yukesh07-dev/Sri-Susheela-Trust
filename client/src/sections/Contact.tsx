@@ -21,7 +21,7 @@ export const ContactSection: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    const res = await apiService.submitContactForm(formData);
+    const res = await apiService.submitContactForm(formData, isTamil);
     setIsSubmitting(false);
     setFeedback(res);
     if (res.success) {

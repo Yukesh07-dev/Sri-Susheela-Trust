@@ -2,6 +2,8 @@ import { Router } from 'express';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import mongoose from 'mongoose';
+import { Event } from '../models/Event.js';
 
 export const eventsRouter = Router();
 
@@ -44,23 +46,6 @@ const defaultEvents = [
     registeredCount: 290,
     attendees: 290,
   },
-  {
-    id: 'event-3',
-    title: 'Grand Annadhanam Mahotsavam 2026',
-    titleTa: 'மாபெரும் அன்னதான மஹோத்சவம் 2026',
-    date: 'July 10, 2026',
-    time: '07:00 AM - 08:00 PM',
-    location: 'Sri Susheela Trust Headquarters, Chennai',
-    locationTa: 'ஸ்ரீ சுசீலா அறக்கட்டளை தலைமையகம், சென்னை',
-    shortDesc: 'Served traditional festive banana leaf feast for over 10,000 people in a single day.',
-    shortDescTa: 'ஒரே நாளில் 10,000-க்கும் மேற்பட்டோருக்கு பாரம்பரிய வாழை இலை விருந்து உபசரிப்பு.',
-    category: 'Annadhanam',
-    imageUrl: 'https://images.unsplash.com/photo-1555244162-803834f70033?auto=format&fit=crop&w=800&q=80',
-    isUpcoming: false,
-    status: 'Completed',
-    registeredCount: 10500,
-    attendees: 10500,
-  },
 ];
 
 function getEventsData(): any[] {
@@ -86,22 +71,58 @@ function saveEventsData(data: any[]) {
   }
 }
 
-// GET /api/events
-eventsRouter.get('/', (_req, res) => {
+// GET /api/events - Read from MongoDB Atlas
+eventsRouter.get('/', async (_req, res) => {
+  if (mongoose.connection.readyState === 1) {
+    try {
+      const data = await Event.find().sort({ createdAt: -1 });
+      return res.json({ success: true, count: data.length, data });
+    } catch (err) {
+      console.error('MongoDB Event Find Error:', err);
+    }
+  }
+
   const data = getEventsData();
   res.json({ success: true, count: data.length, data });
 });
 
-// POST /api/events
-eventsRouter.post('/', (req, res) => {
+// POST /api/events - Create new event in MongoDB Atlas
+eventsRouter.post('/', async (req, res) => {
   const { title, titleTa, date, time, location, locationTa, shortDesc, shortDescTa, category, imageUrl, status } = req.body;
   if (!title || !date) {
     return res.status(400).json({ success: false, message: 'Title and Date are required' });
   }
 
+  const id = `EV-${Math.floor(100 + Math.random() * 900)}`;
+
+  if (mongoose.connection.readyState === 1) {
+    try {
+      const newEvt = await Event.create({
+        id,
+        title,
+        titleTa: titleTa || title,
+        date,
+        time: time || '09:00 AM - 05:00 PM',
+        location: location || 'Sri Susheela Trust Hall',
+        locationTa: locationTa || location || '',
+        shortDesc: shortDesc || '',
+        shortDescTa: shortDescTa || shortDesc || '',
+        category: category || 'General',
+        imageUrl: imageUrl || 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=800&q=80',
+        isUpcoming: status !== 'Completed',
+        status: status || 'Upcoming',
+        registeredCount: 0,
+        attendees: 0,
+      });
+      return res.status(201).json({ success: true, message: 'Event saved to MongoDB Atlas', data: newEvt });
+    } catch (err) {
+      console.error('MongoDB Event Create Error:', err);
+    }
+  }
+
   const items = getEventsData();
   const newEvent = {
-    id: `EV-${Math.floor(100 + Math.random() * 900)}`,
+    id,
     title,
     titleTa: titleTa || title,
     date,
@@ -124,8 +145,23 @@ eventsRouter.post('/', (req, res) => {
   res.status(201).json({ success: true, message: 'Event created successfully', data: newEvent });
 });
 
-// PUT /api/events/:id
-eventsRouter.put('/:id', (req, res) => {
+// PUT /api/events/:id - Update event in MongoDB Atlas
+eventsRouter.put('/:id', async (req, res) => {
+  if (mongoose.connection.readyState === 1) {
+    try {
+      const updated = await Event.findOneAndUpdate(
+        { id: req.params.id },
+        { ...req.body, updatedAt: new Date() },
+        { new: true }
+      );
+      if (updated) {
+        return res.json({ success: true, message: 'Event updated in MongoDB Atlas', data: updated });
+      }
+    } catch (err) {
+      console.error('MongoDB Event Update Error:', err);
+    }
+  }
+
   const items = getEventsData();
   const index = items.findIndex((e) => e.id === req.params.id);
   if (index === -1) return res.status(404).json({ success: false, message: 'Event not found' });
@@ -140,8 +176,17 @@ eventsRouter.put('/:id', (req, res) => {
   res.json({ success: true, message: 'Event updated successfully', data: items[index] });
 });
 
-// DELETE /api/events/:id
-eventsRouter.delete('/:id', (req, res) => {
+// DELETE /api/events/:id - Delete event from MongoDB Atlas
+eventsRouter.delete('/:id', async (req, res) => {
+  if (mongoose.connection.readyState === 1) {
+    try {
+      await Event.deleteOne({ id: req.params.id });
+      return res.json({ success: true, message: 'Event deleted from MongoDB Atlas' });
+    } catch (err) {
+      console.error('MongoDB Event Delete Error:', err);
+    }
+  }
+
   const items = getEventsData();
   const filtered = items.filter((e) => e.id !== req.params.id);
   saveEventsData(filtered);

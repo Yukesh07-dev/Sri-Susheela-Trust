@@ -33,3 +33,9 @@ logs/
 *.sw?
 .DS_Store
 Thumbs.db
+
+# Temp Uploads & Local Data
+server/uploads/*
+!server/uploads/.gitkeep
+*.pdf
+Invoice_*.html

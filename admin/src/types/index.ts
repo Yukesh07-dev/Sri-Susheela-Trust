@@ -122,4 +122,18 @@ export interface DashboardStats {
   activeEvents: number;
   registeredVolunteers: number;
   mediaGalleryItems: number;
+  contactInquiries?: number;
+}
+
+export interface ContactInquiry {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  subject: string;
+  message: string;
+  status: 'Pending' | 'Read' | 'Replied' | 'Archived';
+  adminNotes?: string;
+  createdAt: string;
+  updatedAt?: string;
 }

@@ -1,10 +1,17 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { LayoutDashboard, BookOpen, Calendar, Image as ImageIcon, Newspaper, MessageSquare, Users, Settings, LogOut } from 'lucide-react';
+import { LayoutDashboard, BookOpen, Calendar, Image as ImageIcon, Newspaper, MessageSquare, Users, Settings, LogOut, Mail } from 'lucide-react';
 
 export const Sidebar: React.FC = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+
+  const handleLogout = (e: React.MouseEvent) => {
+    e.preventDefault();
+    localStorage.removeItem('sst_admin_token');
+    localStorage.removeItem('sst_admin_user');
+    navigate('/login');
+  };
 
   return (
     <aside className="admin-sidebar">
@@ -56,6 +63,11 @@ export const Sidebar: React.FC = () => {
           <span>{t('nav.volunteers')}</span>
         </NavLink>
 
+        <NavLink to="/contacts" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
+          <Mail size={20} />
+          <span>Contact Requests</span>
+        </NavLink>
+
         <NavLink to="/settings" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
           <Settings size={20} />
           <span>{t('nav.settings')}</span>
@@ -63,10 +75,14 @@ export const Sidebar: React.FC = () => {
       </nav>
 
       <div style={{ marginTop: 'auto', paddingTop: '1rem', borderTop: '1px solid var(--border-color)' }}>
-        <a href="#logout" className="nav-item" style={{ color: 'var(--danger-color)' }}>
+        <button
+          onClick={handleLogout}
+          className="nav-item"
+          style={{ width: '100%', background: 'none', border: 'none', color: 'var(--danger-color)', cursor: 'pointer', textAlign: 'left' }}
+        >
           <LogOut size={20} />
           <span>{t('signOut')}</span>
-        </a>
+        </button>
       </div>
     </aside>
   );

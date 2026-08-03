@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { MOCK_PROGRAMS } from '../constants';
+import { apiService } from '../services/api';
 import { ProgramItem } from '../types';
 import { Utensils, GraduationCap, HeartHandshake, Stethoscope, Sparkles, CheckCircle2, ArrowRight, Heart } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -10,6 +11,30 @@ export const ActivitiesSection: React.FC = () => {
   const { t, i18n } = useTranslation();
   const isTamil = i18n.language === 'ta';
   const [selectedProgram, setSelectedProgram] = useState<ProgramItem | null>(null);
+  const [programs, setPrograms] = useState<ProgramItem[]>(MOCK_PROGRAMS);
+
+  useEffect(() => {
+    let isMounted = true;
+    const fetchProgs = () => {
+      apiService.getPrograms().then((data) => {
+        if (isMounted && data && data.length > 0) {
+          setPrograms(data);
+        }
+      });
+    };
+
+    fetchProgs();
+
+    const handleFocus = () => fetchProgs();
+    window.addEventListener('focus', handleFocus);
+    const timer = setInterval(fetchProgs, 3000);
+
+    return () => {
+      isMounted = false;
+      window.removeEventListener('focus', handleFocus);
+      clearInterval(timer);
+    };
+  }, []);
 
   const getIcon = (iconName: string) => {
     switch (iconName) {
@@ -66,7 +91,7 @@ export const ActivitiesSection: React.FC = () => {
 
         {/* Program Cards Grid */}
         <div className="row g-4">
-          {MOCK_PROGRAMS.map((prog, idx) => (
+          {programs.map((prog, idx) => (
             <div key={prog.id} className="col-12 col-md-6 col-lg-4">
               <motion.div
                 initial={{ opacity: 0, y: 25 }}

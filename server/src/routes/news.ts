@@ -2,6 +2,8 @@ import { Router } from 'express';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import mongoose from 'mongoose';
+import { News } from '../models/News.js';
 
 export const newsRouter = Router();
 
@@ -63,22 +65,55 @@ function saveNewsData(data: any[]) {
   }
 }
 
-// GET /api/news
-newsRouter.get('/', (_req, res) => {
+// GET /api/news - Read from MongoDB Atlas
+newsRouter.get('/', async (_req, res) => {
+  if (mongoose.connection.readyState === 1) {
+    try {
+      const data = await News.find().sort({ createdAt: -1 });
+      return res.json({ success: true, count: data.length, data });
+    } catch (err) {
+      console.error('MongoDB News Find Error:', err);
+    }
+  }
+
   const data = getNewsData();
   res.json({ success: true, count: data.length, data });
 });
 
-// POST /api/news
-newsRouter.post('/', (req, res) => {
+// POST /api/news - Create news article in MongoDB Atlas
+newsRouter.post('/', async (req, res) => {
   const { title, titleTa, category, excerpt, excerptTa, content, contentTa, imageUrl, author, readTime } = req.body;
   if (!title || !content) {
     return res.status(400).json({ success: false, message: 'Title and Content are required' });
   }
 
+  const id = `news-${Date.now()}`;
+
+  if (mongoose.connection.readyState === 1) {
+    try {
+      const newNewsDoc = await News.create({
+        id,
+        title,
+        titleTa: titleTa || title,
+        publishedDate: new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
+        category: category || 'Updates',
+        excerpt: excerpt || content.substring(0, 120),
+        excerptTa: excerptTa || excerpt || '',
+        content,
+        contentTa: contentTa || content,
+        imageUrl: imageUrl || 'https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?auto=format&fit=crop&w=800&q=80',
+        readTime: readTime || '3 min read',
+        author: author || 'Sri Susheela Trust Team',
+      });
+      return res.status(201).json({ success: true, message: 'News article saved to MongoDB Atlas', data: newNewsDoc });
+    } catch (err) {
+      console.error('MongoDB News Create Error:', err);
+    }
+  }
+
   const items = getNewsData();
   const newArticle = {
-    id: `news-${Date.now()}`,
+    id,
     title,
     titleTa: titleTa || title,
     publishedDate: new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
@@ -98,11 +133,26 @@ newsRouter.post('/', (req, res) => {
   res.status(201).json({ success: true, message: 'News article published successfully', data: newArticle });
 });
 
-// PUT /api/news/:id
-newsRouter.put('/:id', (req, res) => {
+// PUT /api/news/:id - Update news article in MongoDB Atlas
+newsRouter.put('/:id', async (req, res) => {
+  if (mongoose.connection.readyState === 1) {
+    try {
+      const updated = await News.findOneAndUpdate(
+        { id: req.params.id },
+        { ...req.body, updatedAt: new Date() },
+        { new: true }
+      );
+      if (updated) {
+        return res.json({ success: true, message: 'News article updated in MongoDB Atlas', data: updated });
+      }
+    } catch (err) {
+      console.error('MongoDB News Update Error:', err);
+    }
+  }
+
   const items = getNewsData();
   const index = items.findIndex((n) => n.id === req.params.id);
-  if (index === -1) return res.status(404).json({ success: false, message: 'News article not found' });
+  if (index === -1) return res.status(404).json({ success: false, message: 'Article not found' });
 
   items[index] = {
     ...items[index],
@@ -111,13 +161,22 @@ newsRouter.put('/:id', (req, res) => {
   };
 
   saveNewsData(items);
-  res.json({ success: true, message: 'News article updated successfully', data: items[index] });
+  res.json({ success: true, message: 'Article updated successfully', data: items[index] });
 });
 
-// DELETE /api/news/:id
-newsRouter.delete('/:id', (req, res) => {
+// DELETE /api/news/:id - Delete news article from MongoDB Atlas
+newsRouter.delete('/:id', async (req, res) => {
+  if (mongoose.connection.readyState === 1) {
+    try {
+      await News.deleteOne({ id: req.params.id });
+      return res.json({ success: true, message: 'News article deleted from MongoDB Atlas' });
+    } catch (err) {
+      console.error('MongoDB News Delete Error:', err);
+    }
+  }
+
   const items = getNewsData();
   const filtered = items.filter((n) => n.id !== req.params.id);
   saveNewsData(filtered);
-  res.json({ success: true, message: 'News article deleted successfully' });
+  res.json({ success: true, message: 'Article deleted successfully' });
 });

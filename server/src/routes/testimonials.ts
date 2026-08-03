@@ -2,6 +2,8 @@ import { Router } from 'express';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import mongoose from 'mongoose';
+import { Testimonial } from '../models/Testimonial.js';
 
 export const testimonialsRouter = Router();
 
@@ -32,17 +34,6 @@ const defaultTestimonials = [
     rating: 5,
     location: 'Thiruvallur',
   },
-  {
-    id: 't-3',
-    name: 'Dr. S. Sundaram, MD',
-    role: 'Chief Medical Volunteer',
-    roleTa: 'தலைமை மருத்துவ ஆலோசகர்',
-    quote: 'I have volunteered in numerous camps, but the organization, dignity, and sincerity of Sri Susheela Trust team is truly world-class.',
-    quoteTa: 'ஸ்ரீ சுசீலா அறக்கட்டளையின் நேர்மையும் அர்ப்பணிப்பும் மருத்துவ முகாம்களை மிகச்சிறப்பாக நடத்த உதவுகிறது.',
-    avatarUrl: 'https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=300&q=80',
-    rating: 5,
-    location: 'Coimbatore',
-  },
 ];
 
 function getTestimonialsData(): any[] {
@@ -68,22 +59,51 @@ function saveTestimonialsData(data: any[]) {
   }
 }
 
-// GET /api/testimonials
-testimonialsRouter.get('/', (_req, res) => {
+// GET /api/testimonials - Read from MongoDB Atlas
+testimonialsRouter.get('/', async (_req, res) => {
+  if (mongoose.connection.readyState === 1) {
+    try {
+      const data = await Testimonial.find().sort({ createdAt: -1 });
+      return res.json({ success: true, count: data.length, data });
+    } catch (err) {
+      console.error('MongoDB Testimonial Find Error:', err);
+    }
+  }
+
   const data = getTestimonialsData();
   res.json({ success: true, count: data.length, data });
 });
 
-// POST /api/testimonials
-testimonialsRouter.post('/', (req, res) => {
-  const { name, role, roleTa, quote, quoteTa, avatarUrl, rating, location } = req.body;
+// POST /api/testimonials - Create testimonial in MongoDB Atlas
+testimonialsRouter.post('/', async (req, res) => {
+  const { name, role, roleTa, quote, quoteTa, avatarUrl, rating } = req.body;
   if (!name || !quote) {
     return res.status(400).json({ success: false, message: 'Name and Quote are required' });
   }
 
+  const id = `t-${Date.now()}`;
+
+  if (mongoose.connection.readyState === 1) {
+    try {
+      const newTest = await Testimonial.create({
+        id,
+        name,
+        role: role || 'Beneficiary',
+        roleTa: roleTa || role || '',
+        quote,
+        quoteTa: quoteTa || quote,
+        avatarUrl: avatarUrl || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=300&q=80',
+        rating: rating || 5,
+      });
+      return res.status(201).json({ success: true, message: 'Testimonial saved to MongoDB Atlas', data: newTest });
+    } catch (err) {
+      console.error('MongoDB Testimonial Create Error:', err);
+    }
+  }
+
   const items = getTestimonialsData();
   const newTestimonial = {
-    id: `t-${Date.now()}`,
+    id,
     name,
     role: role || 'Beneficiary',
     roleTa: roleTa || role || '',
@@ -91,7 +111,6 @@ testimonialsRouter.post('/', (req, res) => {
     quoteTa: quoteTa || quote,
     avatarUrl: avatarUrl || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=300&q=80',
     rating: rating || 5,
-    location: location || 'Tamil Nadu',
     createdAt: new Date().toISOString(),
   };
 
@@ -100,8 +119,23 @@ testimonialsRouter.post('/', (req, res) => {
   res.status(201).json({ success: true, message: 'Testimonial added successfully', data: newTestimonial });
 });
 
-// PUT /api/testimonials/:id
-testimonialsRouter.put('/:id', (req, res) => {
+// PUT /api/testimonials/:id - Update testimonial in MongoDB Atlas
+testimonialsRouter.put('/:id', async (req, res) => {
+  if (mongoose.connection.readyState === 1) {
+    try {
+      const updated = await Testimonial.findOneAndUpdate(
+        { id: req.params.id },
+        { ...req.body, updatedAt: new Date() },
+        { new: true }
+      );
+      if (updated) {
+        return res.json({ success: true, message: 'Testimonial updated in MongoDB Atlas', data: updated });
+      }
+    } catch (err) {
+      console.error('MongoDB Testimonial Update Error:', err);
+    }
+  }
+
   const items = getTestimonialsData();
   const index = items.findIndex((t) => t.id === req.params.id);
   if (index === -1) return res.status(404).json({ success: false, message: 'Testimonial not found' });
@@ -116,8 +150,17 @@ testimonialsRouter.put('/:id', (req, res) => {
   res.json({ success: true, message: 'Testimonial updated successfully', data: items[index] });
 });
 
-// DELETE /api/testimonials/:id
-testimonialsRouter.delete('/:id', (req, res) => {
+// DELETE /api/testimonials/:id - Delete testimonial from MongoDB Atlas
+testimonialsRouter.delete('/:id', async (req, res) => {
+  if (mongoose.connection.readyState === 1) {
+    try {
+      await Testimonial.deleteOne({ id: req.params.id });
+      return res.json({ success: true, message: 'Testimonial deleted from MongoDB Atlas' });
+    } catch (err) {
+      console.error('MongoDB Testimonial Delete Error:', err);
+    }
+  }
+
   const items = getTestimonialsData();
   const filtered = items.filter((t) => t.id !== req.params.id);
   saveTestimonialsData(filtered);
