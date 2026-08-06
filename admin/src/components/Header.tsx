@@ -55,20 +55,20 @@ export const Header: React.FC<HeaderProps> = ({ title }) => {
             display: 'flex',
             alignItems: 'center',
             gap: '0.45rem',
-            background: 'linear-gradient(135deg, #1E3A8A 0%, #1D4ED8 100%)',
-            color: '#38BDF8',
-            border: '1.5px solid #38BDF8',
+            background: 'linear-gradient(135deg, #7A1C1C 0%, #521212 100%)',
+            color: '#FFD700',
+            border: '1.5px solid #D4AF37',
             borderRadius: '20px',
             padding: '0.4rem 0.9rem',
             fontSize: '0.85rem',
             fontWeight: 700,
             cursor: 'pointer',
-            boxShadow: '0 2px 10px rgba(59, 130, 246, 0.3)',
+            boxShadow: '0 2px 10px rgba(122, 28, 28, 0.4)',
             transition: 'all 0.2s ease',
           }}
           title={currentLang === 'en' ? 'Switch to Tamil (தமிழ்)' : 'Switch to English'}
         >
-          <Globe size={16} color="#38BDF8" />
+          <Globe size={16} color="#FFD700" />
           <span>{currentLang === 'en' ? 'தமிழ்' : 'English'}</span>
         </button>
 
@@ -115,10 +115,10 @@ export const Header: React.FC<HeaderProps> = ({ title }) => {
               alignItems: 'center',
               gap: '0.65rem',
               padding: '0.35rem 0.75rem 0.35rem 0.4rem',
-              background: isDropdownOpen ? 'rgba(30, 41, 59, 0.95)' : 'rgba(15, 23, 42, 0.8)',
-              border: '1.5px solid rgba(56, 189, 248, 0.45)',
+              background: isDropdownOpen ? 'rgba(34, 25, 16, 0.95)' : 'rgba(26, 18, 12, 0.85)',
+              border: '1.5px solid rgba(212, 175, 55, 0.45)',
               borderRadius: '30px',
-              boxShadow: '0 4px 15px rgba(0, 0, 0, 0.25), 0 0 12px rgba(56, 189, 248, 0.2)',
+              boxShadow: '0 4px 15px rgba(0, 0, 0, 0.35), 0 0 12px rgba(212, 175, 55, 0.2)',
               cursor: 'pointer',
               transition: 'all 0.2s ease-in-out',
             }}
@@ -133,8 +133,8 @@ export const Header: React.FC<HeaderProps> = ({ title }) => {
                   height: '38px',
                   borderRadius: '50%',
                   objectFit: 'cover',
-                  border: '2px solid #38BDF8',
-                  boxShadow: '0 0 10px rgba(56, 189, 248, 0.5)',
+                  border: '2px solid #D4AF37',
+                  boxShadow: '0 0 10px rgba(212, 175, 55, 0.5)',
                 }}
               />
               <span
@@ -146,20 +146,20 @@ export const Header: React.FC<HeaderProps> = ({ title }) => {
                   height: '10px',
                   backgroundColor: '#10B981',
                   borderRadius: '50%',
-                  border: '2px solid #0F172A',
+                  border: '2px solid #1A120C',
                   boxShadow: '0 0 8px #10B981',
                 }}
               />
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1.1 }}>
-              <span style={{ color: '#F8FAFC', fontSize: '0.85rem', fontWeight: 700 }}>
+              <span style={{ color: '#FFFDF5', fontSize: '0.85rem', fontWeight: 700 }}>
                 {t('administrator') || 'Admin'}
               </span>
               <span style={{ color: '#10B981', fontSize: '0.72rem', fontWeight: 600 }}>
                 ● Online
               </span>
             </div>
-            <ChevronDown size={16} color="#38BDF8" style={{ transform: isDropdownOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.2s ease' }} />
+            <ChevronDown size={16} color="#D4AF37" style={{ transform: isDropdownOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.2s ease' }} />
           </div>
 
           {/* Floating Dropdown Card */}
@@ -170,40 +170,40 @@ export const Header: React.FC<HeaderProps> = ({ title }) => {
                 top: 'calc(100% + 10px)',
                 right: 0,
                 width: '260px',
-                background: '#0F172A',
-                border: '1.5px solid rgba(56, 189, 248, 0.3)',
+                background: '#1A120C',
+                border: '1.5px solid rgba(212, 175, 55, 0.35)',
                 borderRadius: '16px',
-                boxShadow: '0 20px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(56, 189, 248, 0.15)',
+                boxShadow: '0 20px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(212, 175, 55, 0.15)',
                 padding: '1rem',
                 zIndex: 999,
                 animation: 'fadeIn 0.2s ease-in-out',
               }}
             >
               {/* Header Info */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', paddingBottom: '0.85rem', borderBottom: '1px solid #1E293B' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', paddingBottom: '0.85rem', borderBottom: '1px solid rgba(212, 175, 55, 0.2)' }}>
                 <div
                   style={{
                     width: '42px',
                     height: '42px',
                     borderRadius: '50%',
-                    background: 'linear-gradient(135deg, #0284C7 0%, #0369A1 100%)',
-                    border: '1.5px solid #38BDF8',
+                    background: 'linear-gradient(135deg, #7A1C1C 0%, #521212 100%)',
+                    border: '1.5px solid #D4AF37',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    color: '#FFFFFF',
+                    color: '#FFD700',
                   }}
                 >
                   <ShieldCheck size={22} />
                 </div>
                 <div style={{ overflow: 'hidden' }}>
-                  <div style={{ color: '#F8FAFC', fontWeight: 700, fontSize: '0.92rem', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>
+                  <div style={{ color: '#FFFDF5', fontWeight: 700, fontSize: '0.92rem', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>
                     {user.name || 'Sri Susheela Admin'}
                   </div>
-                  <div style={{ color: '#94A3B8', fontSize: '0.78rem', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>
+                  <div style={{ color: '#A89888', fontSize: '0.78rem', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>
                     {user.email}
                   </div>
-                  <span style={{ display: 'inline-block', background: 'rgba(56, 189, 248, 0.15)', color: '#38BDF8', fontSize: '0.68rem', fontWeight: 700, padding: '0.1rem 0.4rem', borderRadius: '4px', marginTop: '0.2rem' }}>
+                  <span style={{ display: 'inline-block', background: 'rgba(212, 175, 55, 0.15)', color: '#FFD700', fontSize: '0.68rem', fontWeight: 700, padding: '0.1rem 0.4rem', borderRadius: '4px', marginTop: '0.2rem' }}>
                     Super Admin
                   </span>
                 </div>
@@ -226,10 +226,10 @@ export const Header: React.FC<HeaderProps> = ({ title }) => {
                     fontWeight: 600,
                     transition: 'background-color 0.15s ease',
                   }}
-                  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#1E293B')}
+                  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'rgba(212, 175, 55, 0.12)')}
                   onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
                 >
-                  <Settings size={16} color="#38BDF8" />
+                  <Settings size={16} color="#D4AF37" />
                   <span>Account Settings</span>
                 </Link>
 
@@ -242,20 +242,20 @@ export const Header: React.FC<HeaderProps> = ({ title }) => {
                     gap: '0.65rem',
                     padding: '0.6rem 0.75rem',
                     borderRadius: '8px',
-                    color: '#E2E8F0',
+                    color: '#E8DFD5',
                     textDecoration: 'none',
                     fontSize: '0.88rem',
                     fontWeight: 600,
                     transition: 'background-color 0.15s ease',
                   }}
-                  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#1E293B')}
+                  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'rgba(212, 175, 55, 0.12)')}
                   onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
                 >
-                  <Mail size={16} color="#38BDF8" />
+                  <Mail size={16} color="#D4AF37" />
                   <span>Contact Requests</span>
                 </Link>
 
-                <div style={{ height: '1px', background: '#1E293B', margin: '0.25rem 0' }} />
+                <div style={{ height: '1px', background: 'rgba(212, 175, 55, 0.2)', margin: '0.25rem 0' }} />
 
                 <button
                   onClick={handleLogout}

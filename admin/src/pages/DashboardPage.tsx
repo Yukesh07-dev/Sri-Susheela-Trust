@@ -79,34 +79,34 @@ export const DashboardPage: React.FC = () => {
           <h3>{t('dashboard.quickControls')}</h3>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1rem', padding: '1.25rem' }}>
-          <Link to="/contacts" style={{ textDecoration: 'none', background: '#F3E8FF', border: '1.5px solid #C084FC', padding: '1.25rem', borderRadius: '12px', color: '#6B21A8', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontWeight: 700 }}>
+          <Link to="/contacts" style={{ textDecoration: 'none', background: 'rgba(212, 175, 55, 0.08)', border: '1.5px solid rgba(212, 175, 55, 0.35)', padding: '1.25rem', borderRadius: '12px', color: '#FFD700', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontWeight: 700 }}>
             <div>
               <div style={{ fontSize: '1.05rem' }}>Contact Requests</div>
-              <div style={{ fontSize: '0.8rem', color: '#6B7280', fontWeight: 400 }}>View and manage user messages & inquiries</div>
+              <div style={{ fontSize: '0.8rem', color: '#A89888', fontWeight: 400 }}>View and manage user messages & inquiries</div>
             </div>
             <ArrowRight size={20} />
           </Link>
 
-          <Link to="/programs" style={{ textDecoration: 'none', background: '#FAF5F5', border: '1.5px solid #FCA5A5', padding: '1.25rem', borderRadius: '12px', color: '#7A1C1C', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontWeight: 700 }}>
+          <Link to="/programs" style={{ textDecoration: 'none', background: 'rgba(122, 28, 28, 0.25)', border: '1.5px solid rgba(122, 28, 28, 0.6)', padding: '1.25rem', borderRadius: '12px', color: '#FFFDF5', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontWeight: 700 }}>
             <div>
               <div style={{ fontSize: '1.05rem' }}>{t('dashboard.managePrograms')}</div>
-              <div style={{ fontSize: '0.8rem', color: '#6B7280', fontWeight: 400 }}>{t('dashboard.manageProgramsSub')}</div>
+              <div style={{ fontSize: '0.8rem', color: '#E8DFD5', fontWeight: 400 }}>{t('dashboard.manageProgramsSub')}</div>
             </div>
             <ArrowRight size={20} />
           </Link>
 
-          <Link to="/events" style={{ textDecoration: 'none', background: '#EFF6FF', border: '1.5px solid #93C5FD', padding: '1.25rem', borderRadius: '12px', color: '#1E40AF', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontWeight: 700 }}>
+          <Link to="/events" style={{ textDecoration: 'none', background: 'rgba(212, 175, 55, 0.08)', border: '1.5px solid rgba(212, 175, 55, 0.35)', padding: '1.25rem', borderRadius: '12px', color: '#FFD700', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontWeight: 700 }}>
             <div>
               <div style={{ fontSize: '1.05rem' }}>{t('dashboard.manageEvents')}</div>
-              <div style={{ fontSize: '0.8rem', color: '#6B7280', fontWeight: 400 }}>{t('dashboard.manageEventsSub')}</div>
+              <div style={{ fontSize: '0.8rem', color: '#A89888', fontWeight: 400 }}>{t('dashboard.manageEventsSub')}</div>
             </div>
             <ArrowRight size={20} />
           </Link>
 
-          <Link to="/gallery" style={{ textDecoration: 'none', background: '#FEF3C7', border: '1.5px solid #FDE68A', padding: '1.25rem', borderRadius: '12px', color: '#92400E', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontWeight: 700 }}>
+          <Link to="/gallery" style={{ textDecoration: 'none', background: 'rgba(122, 28, 28, 0.25)', border: '1.5px solid rgba(122, 28, 28, 0.6)', padding: '1.25rem', borderRadius: '12px', color: '#FFFDF5', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontWeight: 700 }}>
             <div>
               <div style={{ fontSize: '1.05rem' }}>{t('dashboard.galleryAndImages')}</div>
-              <div style={{ fontSize: '0.8rem', color: '#6B7280', fontWeight: 400 }}>{t('dashboard.gallerySub')}</div>
+              <div style={{ fontSize: '0.8rem', color: '#E8DFD5', fontWeight: 400 }}>{t('dashboard.gallerySub')}</div>
             </div>
             <ArrowRight size={20} />
           </Link>

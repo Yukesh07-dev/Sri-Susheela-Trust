@@ -25,7 +25,7 @@ export const Lightbox: React.FC<LightboxProps> = ({ item, onClose, onPrev, onNex
   return (
     <div
       className="position-fixed top-0 start-0 w-100 h-100 d-flex flex-column align-items-center justify-content-center p-3"
-      style={{ zIndex: 99999, backgroundColor: 'rgba(15, 23, 42, 0.92)', backdropFilter: 'blur(12px)' }}
+      style={{ zIndex: 99999, backgroundColor: 'rgba(15, 23, 42, 0.95)' }}
     >
       {/* Top bar */}
       <div className="position-absolute top-0 start-0 w-100 d-flex justify-content-between align-items-center p-3 text-white">

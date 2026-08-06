@@ -3,7 +3,9 @@ import { useTranslation } from 'react-i18next';
 import { AdminLayout } from '../layouts/AdminLayout';
 import { galleryApi } from '../services/api';
 import { GalleryItem } from '../types';
-import { Plus, Edit3, Trash2, Image as ImageIcon, Upload, Link as LinkIcon, RefreshCw, X, CheckCircle } from 'lucide-react';
+import { Plus, Edit3, Trash2, Image as ImageIcon, Upload, Link as LinkIcon, RefreshCw, X, CheckCircle, Crop } from 'lucide-react';
+import { ImageCropperModal } from '../components/ImageCropperModal';
+import { ConfirmModal } from '../components/ConfirmModal';
 
 export const GalleryPage: React.FC = () => {
   const { t } = useTranslation();
@@ -12,6 +14,12 @@ export const GalleryPage: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [editingItem, setEditingItem] = useState<GalleryItem | null>(null);
+
+  // Image Cropper States (manual crop for portrait photos only)
+  const [isCropperOpen, setIsCropperOpen] = useState<boolean>(false);
+  const [cropSourceUrl, setCropSourceUrl] = useState<string>('');
+  const [isCropped, setIsCropped] = useState<boolean>(false);
+  const [isPortrait, setIsPortrait] = useState<boolean>(false);
 
   // Modal Form State
   const [title, setTitle] = useState<string>('');
@@ -27,6 +35,7 @@ export const GalleryPage: React.FC = () => {
   const [submitting, setSubmitting] = useState<boolean>(false);
   const [successMsg, setSuccessMsg] = useState<string>('');
   const [errorMsg, setErrorMsg] = useState<string>('');
+  const [confirmModal, setConfirmModal] = useState<{ isOpen: boolean; title: string; message: string; onConfirm: () => void }>({ isOpen: false, title: '', message: '', onConfirm: () => {} });
 
   const categories = [
     { key: 'all', label: t('gallery.allCategories') },
@@ -62,6 +71,9 @@ export const GalleryPage: React.FC = () => {
     setSourceType('file');
     setSelectedFile(null);
     setPreviewUrl('');
+    setCropSourceUrl('');
+    setIsCropped(false);
+    setIsPortrait(false);
     setMediaUrlInput('');
     setDescription('');
     setErrorMsg('');
@@ -76,9 +88,19 @@ export const GalleryPage: React.FC = () => {
     setSourceType('url');
     setMediaUrlInput(item.mediaUrl);
     setPreviewUrl(item.mediaUrl);
+    setCropSourceUrl(item.mediaUrl);
+    setIsCropped(false);
+    setIsPortrait(false);
     setDescription(item.description || '');
     setErrorMsg('');
     setIsModalOpen(true);
+
+    // Detect if existing photo is portrait
+    const img = new Image();
+    img.onload = () => {
+      setIsPortrait(img.height > img.width);
+    };
+    img.src = item.mediaUrl;
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -87,8 +109,27 @@ export const GalleryPage: React.FC = () => {
       setSelectedFile(file);
       const url = URL.createObjectURL(file);
       setPreviewUrl(url);
+      setCropSourceUrl(url);
+      setIsCropped(false);
+
+      // Detect if photo is portrait
+      const img = new Image();
+      img.onload = () => {
+        setIsPortrait(img.height > img.width);
+      };
+      img.src = url;
     }
   };
+
+  const handleCropComplete = (croppedFile: File, croppedPreviewUrl: string) => {
+    setSelectedFile(croppedFile);
+    setPreviewUrl(croppedPreviewUrl);
+    setIsCropped(true);
+    setIsCropperOpen(false);
+    // Switch to file source so cropped image gets uploaded on save
+    setSourceType('file');
+  };
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -143,13 +184,19 @@ export const GalleryPage: React.FC = () => {
     }
   };
 
-  const handleDelete = async (id: string, itemTitle: string) => {
-    if (window.confirm(`Are you sure you want to delete "${itemTitle}"?`)) {
-      await galleryApi.deleteGalleryItem(id);
-      setSuccessMsg(`Deleted "${itemTitle}"`);
-      fetchGallery();
-      setTimeout(() => setSuccessMsg(''), 3000);
-    }
+  const handleDelete = (id: string, itemTitle: string) => {
+    setConfirmModal({
+      isOpen: true,
+      title: 'Confirm Delete',
+      message: `Are you sure you want to delete "${itemTitle}"? This action cannot be undone.`,
+      onConfirm: async () => {
+        setConfirmModal(prev => ({ ...prev, isOpen: false }));
+        await galleryApi.deleteGalleryItem(id);
+        setSuccessMsg(`Deleted "${itemTitle}"`);
+        fetchGallery();
+        setTimeout(() => setSuccessMsg(''), 3000);
+      },
+    });
   };
 
   return (
@@ -241,8 +288,8 @@ export const GalleryPage: React.FC = () => {
       </div>
 
       {/* Upload/Edit Modal */}
-      {isModalOpen && (
-        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.55)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: '1rem' }}>
+      {isModalOpen && !isCropperOpen && (
+        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0, 0, 0, 0.65)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: '1rem' }}>
           <div style={{ background: '#FFF', borderRadius: '16px', width: '100%', maxWidth: '560px', maxHeight: '90vh', overflowY: 'auto', padding: '1.5rem' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', borderBottom: '1px solid #E5E7EB', paddingBottom: '0.75rem' }}>
               <h3 style={{ margin: 0, color: '#7A1C1C', fontWeight: 700 }}>{editingItem ? t('gallery.editPhoto') : t('gallery.uploadPhotoTitle')}</h3>
@@ -296,9 +343,49 @@ export const GalleryPage: React.FC = () => {
               </div>
 
               {previewUrl && (
-                <div style={{ marginBottom: '1rem', textAlign: 'center' }}>
-                  <div style={{ fontSize: '0.75rem', fontWeight: 600, color: '#6B7280', marginBottom: '0.25rem' }}>Image Preview</div>
-                  <img src={previewUrl} alt="Preview" style={{ maxHeight: '140px', borderRadius: '8px', border: '1px solid #E5E7EB', objectFit: 'contain' }} />
+                <div style={{ marginBottom: '1.25rem', textAlign: 'center', background: '#F8FAFC', padding: '0.85rem', borderRadius: '12px', border: '1px solid #E2E8F0' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+                    <div style={{ fontSize: '0.8rem', fontWeight: 700, color: '#334155', display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                      Image Preview
+                      {isPortrait && !isCropped && (
+                        <span style={{ background: '#FEF3C7', color: '#92400E', fontSize: '0.7rem', padding: '0.15rem 0.5rem', borderRadius: '10px', fontWeight: 700 }}>
+                          ⚠ Portrait
+                        </span>
+                      )}
+                      {isCropped && (
+                        <span style={{ background: '#D1FAE5', color: '#065F46', fontSize: '0.7rem', padding: '0.15rem 0.5rem', borderRadius: '10px', fontWeight: 700 }}>
+                          ✓ Cropped
+                        </span>
+                      )}
+                    </div>
+                    {isPortrait && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setCropSourceUrl(previewUrl);
+                          setIsCropperOpen(true);
+                        }}
+                        style={{
+                          background: '#FEF3C7',
+                          color: '#92400E',
+                          border: '1px solid #F59E0B',
+                          borderRadius: '6px',
+                          padding: '0.3rem 0.65rem',
+                          fontSize: '0.78rem',
+                          fontWeight: 700,
+                          cursor: 'pointer',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '0.3rem',
+                        }}
+                      >
+                        <Crop size={14} /> Crop Photo
+                      </button>
+                    )}
+                  </div>
+                  <div style={{ borderRadius: '8px', overflow: 'hidden', border: '1px solid #CBD5E1', display: 'inline-block', maxWidth: '100%' }}>
+                    <img src={previewUrl} alt="Preview" style={{ maxHeight: '160px', width: 'auto', display: 'block', margin: '0 auto' }} />
+                  </div>
                 </div>
               )}
 
@@ -317,6 +404,24 @@ export const GalleryPage: React.FC = () => {
           </div>
         </div>
       )}
+
+      {/* Interactive Image Cropper Modal — manual, for portrait photos */}
+      {isCropperOpen && cropSourceUrl && (
+        <ImageCropperModal
+          imageUrl={cropSourceUrl}
+          onCropComplete={handleCropComplete}
+          onClose={() => setIsCropperOpen(false)}
+          targetAspectRatio={16 / 9}
+        />
+      )}
+      <ConfirmModal
+        isOpen={confirmModal.isOpen}
+        title={confirmModal.title}
+        message={confirmModal.message}
+        onConfirm={confirmModal.onConfirm}
+        onCancel={() => setConfirmModal(prev => ({ ...prev, isOpen: false }))}
+      />
     </AdminLayout>
   );
 };
+

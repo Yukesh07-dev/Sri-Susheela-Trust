@@ -4,6 +4,7 @@ import { AdminLayout } from '../layouts/AdminLayout';
 import { newsApi, galleryApi } from '../services/api';
 import { NewsArticle } from '../types';
 import { Plus, Edit3, Trash2, RefreshCw, X, CheckCircle, Upload } from 'lucide-react';
+import { ConfirmModal } from '../components/ConfirmModal';
 
 export const NewsPage: React.FC = () => {
   const { t } = useTranslation();
@@ -11,6 +12,7 @@ export const NewsPage: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [editingArticle, setEditingArticle] = useState<NewsArticle | null>(null);
+  const [confirmModal, setConfirmModal] = useState<{ isOpen: boolean; title: string; message: string; onConfirm: () => void }>({ isOpen: false, title: '', message: '', onConfirm: () => {} });
 
   // Form states
   const [title, setTitle] = useState<string>('');
@@ -129,13 +131,19 @@ export const NewsPage: React.FC = () => {
     }
   };
 
-  const handleDelete = async (id: string, articleTitle: string) => {
-    if (window.confirm(`Are you sure you want to delete article "${articleTitle}"?`)) {
-      await newsApi.deleteNews(id);
-      setSuccessMsg(`Deleted article "${articleTitle}".`);
-      fetchNews();
-      setTimeout(() => setSuccessMsg(''), 3000);
-    }
+  const handleDelete = (id: string, articleTitle: string) => {
+    setConfirmModal({
+      isOpen: true,
+      title: 'Confirm Delete',
+      message: `Are you sure you want to delete article "${articleTitle}"? This action cannot be undone.`,
+      onConfirm: async () => {
+        setConfirmModal(prev => ({ ...prev, isOpen: false }));
+        await newsApi.deleteNews(id);
+        setSuccessMsg(`Deleted article "${articleTitle}".`);
+        fetchNews();
+        setTimeout(() => setSuccessMsg(''), 3000);
+      },
+    });
   };
 
   return (
@@ -277,6 +285,13 @@ export const NewsPage: React.FC = () => {
           </div>
         </div>
       )}
+      <ConfirmModal
+        isOpen={confirmModal.isOpen}
+        title={confirmModal.title}
+        message={confirmModal.message}
+        onConfirm={confirmModal.onConfirm}
+        onCancel={() => setConfirmModal(prev => ({ ...prev, isOpen: false }))}
+      />
     </AdminLayout>
   );
 };

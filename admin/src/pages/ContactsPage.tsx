@@ -4,6 +4,7 @@ import { AdminLayout } from '../layouts/AdminLayout';
 import { contactsApi } from '../services/api';
 import { ContactInquiry } from '../types';
 import { Trash2, RefreshCw, CheckCircle, Eye, X, MessageSquare, Mail, Phone, Plus, Search, Filter, MessageCircle, Edit3 } from 'lucide-react';
+import { ConfirmModal } from '../components/ConfirmModal';
 
 export const ContactsPage: React.FC = () => {
   const { t } = useTranslation();
@@ -16,6 +17,7 @@ export const ContactsPage: React.FC = () => {
   // Modals
   const [selectedContact, setSelectedContact] = useState<ContactInquiry | null>(null);
   const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
+  const [confirmModal, setConfirmModal] = useState<{ isOpen: boolean; title: string; message: string; onConfirm: () => void }>({ isOpen: false, title: '', message: '', onConfirm: () => {} });
   const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
 
   // New Contact Form State
@@ -58,14 +60,20 @@ export const ContactsPage: React.FC = () => {
     setTimeout(() => setSuccessMsg(''), 3000);
   };
 
-  const handleDelete = async (id: string, name: string) => {
-    if (window.confirm(`Are you sure you want to delete inquiry from "${name}"?`)) {
-      await contactsApi.deleteContact(id);
-      setSuccessMsg(`Deleted inquiry from "${name}".`);
-      if (selectedContact?.id === id) setSelectedContact(null);
-      fetchContacts();
-      setTimeout(() => setSuccessMsg(''), 3000);
-    }
+  const handleDelete = (id: string, name: string) => {
+    setConfirmModal({
+      isOpen: true,
+      title: 'Confirm Delete',
+      message: `Are you sure you want to delete inquiry from "${name}"? This action cannot be undone.`,
+      onConfirm: async () => {
+        setConfirmModal(prev => ({ ...prev, isOpen: false }));
+        await contactsApi.deleteContact(id);
+        setSuccessMsg(`Deleted inquiry from "${name}".`);
+        if (selectedContact?.id === id) setSelectedContact(null);
+        fetchContacts();
+        setTimeout(() => setSuccessMsg(''), 3000);
+      },
+    });
   };
 
   const handleCreateContact = async (e: React.FormEvent) => {
@@ -565,6 +573,13 @@ export const ContactsPage: React.FC = () => {
           </div>
         </div>
       )}
+      <ConfirmModal
+        isOpen={confirmModal.isOpen}
+        title={confirmModal.title}
+        message={confirmModal.message}
+        onConfirm={confirmModal.onConfirm}
+        onCancel={() => setConfirmModal(prev => ({ ...prev, isOpen: false }))}
+      />
     </AdminLayout>
   );
 };

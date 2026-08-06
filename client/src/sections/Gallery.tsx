@@ -135,7 +135,7 @@ export const GallerySection: React.FC = () => {
 
                 <div
                   className="position-absolute top-0 start-0 w-100 h-100 p-4 d-flex flex-column justify-content-between text-white transition-all opacity-0 hover-opacity-100"
-                  style={{ background: 'rgba(122, 28, 28, 0.82)', backdropFilter: 'blur(4px)' }}
+                  style={{ background: 'rgba(122, 28, 28, 0.85)' }}
                 >
                   <div className="d-flex justify-content-between align-items-center">
                     <span className="badge badge-gold text-uppercase">{item.category}</span>

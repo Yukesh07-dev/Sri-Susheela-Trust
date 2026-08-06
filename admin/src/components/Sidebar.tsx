@@ -19,7 +19,7 @@ export const Sidebar: React.FC = () => {
         <img
           src="/logo.jpg"
           alt="Sri Susheela Trust Logo"
-          style={{ width: '42px', height: '42px', borderRadius: '50%', border: '2px solid #38BDF8', boxShadow: '0 0 10px rgba(56, 189, 248, 0.35)', objectFit: 'cover' }}
+          style={{ width: '42px', height: '42px', borderRadius: '50%', border: '2px solid #D4AF37', boxShadow: '0 0 12px rgba(212, 175, 55, 0.45)', objectFit: 'cover' }}
         />
         <div className="brand-title">
           <h3>Sri Susheela</h3>

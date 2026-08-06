@@ -1,20 +1,23 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
 :root {
-  --bg-primary: #0F172A;
-  --bg-main: #0B1120;
-  --bg-card: #1E293B;
-  --bg-sidebar: #0F172A;
-  --accent-color: #3B82F6;
-  --accent-hover: #2563EB;
-  --accent-cyan: #38BDF8;
-  --accent-gradient: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%);
-  --text-main: #F8FAFC;
-  --text-body: #E2E8F0;
-  --text-muted: #94A3B8;
-  --border-color: #334155;
-  --input-bg: #0F172A;
-  --input-border: #475569;
+  /* Sri Susheela Trust - Mahogany & Gold Theme */
+  --bg-primary: #1A120C;
+  --bg-main: #120D08;
+  --bg-card: #221910;
+  --bg-sidebar: #1A120C;
+  --accent-color: #7A1C1C;
+  --accent-hover: #992222;
+  --accent-cyan: #D4AF37; /* Gold accent */
+  --accent-gold: #FFD700;
+  --accent-gradient: linear-gradient(135deg, #7A1C1C 0%, #521212 100%);
+  --gold-gradient: linear-gradient(135deg, #D4AF37 0%, #996515 100%);
+  --text-main: #FFFDF5;
+  --text-body: #E8DFD5;
+  --text-muted: #A89888;
+  --border-color: rgba(212, 175, 55, 0.22);
+  --input-bg: #120D08;
+  --input-border: rgba(212, 175, 55, 0.35);
   --success-color: #10B981;
   --warning-color: #F59E0B;
   --danger-color: #EF4444;
@@ -61,7 +64,7 @@ body {
 }
 
 .admin-sidebar::-webkit-scrollbar-thumb {
-  background: var(--border-color);
+  background: rgba(212, 175, 55, 0.3);
   border-radius: 4px;
 }
 
@@ -109,14 +112,15 @@ body {
 }
 
 .nav-item:hover {
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: rgba(212, 175, 55, 0.08);
   color: var(--text-main);
 }
 
 .nav-item.active {
   background: var(--accent-gradient);
-  color: #FFFFFF;
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.35);
+  color: #FFD700;
+  border: 1px solid rgba(212, 175, 55, 0.5);
+  box-shadow: 0 4px 14px rgba(122, 28, 28, 0.45);
 }
 
 /* Main Content Area */
@@ -158,8 +162,9 @@ body {
   width: 38px;
   height: 38px;
   border-radius: 50%;
-  background: #3B82F6;
-  color: #FFFFFF;
+  background: var(--accent-gradient);
+  color: #FFD700;
+  border: 1.5px solid #D4AF37;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -193,7 +198,7 @@ body {
 
 .stat-card:hover {
   transform: translateY(-3px);
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 10px 25px -5px rgba(122, 28, 28, 0.25), 0 0 15px rgba(212, 175, 55, 0.15);
 }
 
 .stat-title {
@@ -263,13 +268,13 @@ body {
 
 .custom-table td {
   padding: 1rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.1);
   font-size: 0.9rem;
   color: var(--text-body);
 }
 
 .custom-table tbody tr:hover {
-  background-color: rgba(255, 255, 255, 0.02);
+  background-color: rgba(212, 175, 55, 0.05);
 }
 
 .badge {
@@ -281,13 +286,13 @@ body {
 
 .badge-success { background: rgba(16, 185, 129, 0.15); color: #34D399; }
 .badge-warning { background: rgba(245, 158, 11, 0.15); color: #FBBF24; }
-.badge-info { background: rgba(59, 130, 246, 0.15); color: #60A5FA; }
-.badge-secondary { background: rgba(255, 255, 255, 0.1); color: #94A3B8; }
+.badge-info { background: rgba(212, 175, 55, 0.2); color: #FFD700; }
+.badge-secondary { background: rgba(255, 255, 255, 0.1); color: var(--text-muted); }
 
 .btn-primary {
   background: var(--accent-gradient);
-  color: white;
-  border: none;
+  color: #FFD700;
+  border: 1px solid rgba(212, 175, 55, 0.5);
   padding: 0.65rem 1.35rem;
   border-radius: 10px;
   font-weight: 700;
@@ -296,13 +301,14 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  box-shadow: 0 4px 14px rgba(122, 28, 28, 0.4);
   transition: all 0.2s ease;
 }
 
 .btn-primary:hover {
   opacity: 0.95;
   transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(122, 28, 28, 0.5), 0 0 10px rgba(255, 215, 0, 0.3);
 }
 
 .btn-secondary {
@@ -321,10 +327,11 @@ body {
 }
 
 .btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(212, 175, 55, 0.12);
+  border-color: rgba(212, 175, 55, 0.4);
 }
 
-/* High-Contrast Inputs for Dark Theme */
+/* High-Contrast Inputs for Dark Mahogany Theme */
 input[type="text"],
 input[type="email"],
 input[type="number"],
@@ -334,9 +341,9 @@ textarea {
   width: 100%;
   padding: 0.7rem 0.9rem;
   border-radius: 8px;
-  background-color: #0F172A !important;
-  border: 1.5px solid #334155 !important;
-  color: #F8FAFC !important;
+  background-color: #120D08 !important;
+  border: 1.5px solid rgba(212, 175, 55, 0.3) !important;
+  color: #FFFDF5 !important;
   font-size: 0.9rem;
   font-family: inherit;
   outline: none;
@@ -348,14 +355,14 @@ input[type="email"]:focus,
 input[type="number"]:focus,
 select:focus,
 textarea:focus {
-  border-color: #38BDF8 !important;
-  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2) !important;
+  border-color: #D4AF37 !important;
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.25) !important;
 }
 
 label {
   display: block;
   font-weight: 600;
   font-size: 0.875rem;
-  color: #CBD5E1;
+  color: #E8DFD5;
   margin-bottom: 0.4rem;
 }

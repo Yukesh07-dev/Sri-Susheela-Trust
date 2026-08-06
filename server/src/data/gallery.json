@@ -1,5 +1,27 @@
 [
   {
+    "id": "gal-1785995669230",
+    "title": "test",
+    "titleTa": "test",
+    "category": "general",
+    "type": "image",
+    "mediaUrl": "http://localhost:5000/uploads/img-1785996009946-800860229.jpg",
+    "thumbnailUrl": "http://localhost:5000/uploads/img-1785996009946-800860229.jpg",
+    "description": "",
+    "createdAt": "2026-08-06T05:54:29.231Z"
+  },
+  {
+    "id": "gal-1785995259085",
+    "title": "test",
+    "titleTa": "test",
+    "category": "general",
+    "type": "image",
+    "mediaUrl": "http://localhost:5000/uploads/img-1785995259039-144210450.jpeg",
+    "thumbnailUrl": "http://localhost:5000/uploads/img-1785995259039-144210450.jpeg",
+    "description": "test",
+    "createdAt": "2026-08-06T05:47:39.085Z"
+  },
+  {
     "id": "gal-1",
     "title": "Daily Annadhanam Meal Serving",
     "titleTa": "தினசரி அன்னதான உணவு விநியோகம்",

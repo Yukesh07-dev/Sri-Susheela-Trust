@@ -51,7 +51,7 @@ export const LoginPage: React.FC = () => {
     <div
       style={{
         minHeight: '100vh',
-        background: 'radial-gradient(circle at 50% 30%, #1E293B 0%, #0B1120 100%)',
+        background: 'radial-gradient(circle at 50% 30%, #261B11 0%, #120D08 100%)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -63,13 +63,13 @@ export const LoginPage: React.FC = () => {
         style={{
           width: '100%',
           maxWidth: '440px',
-          background: 'rgba(30, 41, 59, 0.75)',
+          background: 'rgba(34, 25, 16, 0.85)',
           backdropFilter: 'blur(16px)',
           WebkitBackdropFilter: 'blur(16px)',
-          border: '1px solid rgba(56, 189, 248, 0.25)',
+          border: '1.5px solid rgba(212, 175, 55, 0.35)',
           borderRadius: '20px',
           padding: '2.5rem 2rem',
-          boxShadow: '0 20px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(56, 189, 248, 0.1)',
+          boxShadow: '0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(212, 175, 55, 0.15)',
         }}
       >
         {/* Brand Header */}
@@ -80,20 +80,20 @@ export const LoginPage: React.FC = () => {
               height: '72px',
               borderRadius: '50%',
               margin: '0 auto 1rem auto',
-              background: 'linear-gradient(135deg, #0284C7 0%, #0369A1 100%)',
-              border: '2px solid #38BDF8',
-              boxShadow: '0 0 20px rgba(56, 189, 248, 0.4)',
+              background: 'linear-gradient(135deg, #7A1C1C 0%, #521212 100%)',
+              border: '2px solid #D4AF37',
+              boxShadow: '0 0 20px rgba(212, 175, 55, 0.45)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
             }}
           >
-            <ShieldCheck size={36} color="#FFFFFF" />
+            <ShieldCheck size={36} color="#FFD700" />
           </div>
-          <h2 style={{ color: '#F8FAFC', fontSize: '1.5rem', fontWeight: 800, margin: 0 }}>
+          <h2 style={{ color: '#FFFDF5', fontSize: '1.5rem', fontWeight: 800, margin: 0 }}>
             Sri Susheela Trust
           </h2>
-          <span style={{ fontSize: '0.8rem', color: '#38BDF8', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 700 }}>
+          <span style={{ fontSize: '0.8rem', color: '#D4AF37', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 700 }}>
             Admin Portal Access
           </span>
         </div>
@@ -122,11 +122,11 @@ export const LoginPage: React.FC = () => {
         {/* Form */}
         <form onSubmit={handleLogin}>
           <div style={{ marginBottom: '1.25rem' }}>
-            <label style={{ display: 'block', color: '#CBD5E1', fontSize: '0.85rem', fontWeight: 600, marginBottom: '0.4rem' }}>
+            <label style={{ display: 'block', color: '#E8DFD5', fontSize: '0.85rem', fontWeight: 600, marginBottom: '0.4rem' }}>
               Admin Email ID
             </label>
             <div style={{ position: 'relative' }}>
-              <Mail size={18} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#94A3B8' }} />
+              <Mail size={18} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#A89888' }} />
               <input
                 type="email"
                 required
@@ -136,10 +136,10 @@ export const LoginPage: React.FC = () => {
                 style={{
                   width: '100%',
                   padding: '0.75rem 0.75rem 0.75rem 2.5rem',
-                  background: '#0F172A',
-                  border: '1.5px solid #334155',
+                  background: '#120D08',
+                  border: '1.5px solid rgba(212, 175, 55, 0.3)',
                   borderRadius: '10px',
-                  color: '#F8FAFC',
+                  color: '#FFFDF5',
                   fontSize: '0.9rem',
                   outline: 'none',
                 }}
@@ -148,11 +148,11 @@ export const LoginPage: React.FC = () => {
           </div>
 
           <div style={{ marginBottom: '1.5rem' }}>
-            <label style={{ display: 'block', color: '#CBD5E1', fontSize: '0.85rem', fontWeight: 600, marginBottom: '0.4rem' }}>
+            <label style={{ display: 'block', color: '#E8DFD5', fontSize: '0.85rem', fontWeight: 600, marginBottom: '0.4rem' }}>
               Password
             </label>
             <div style={{ position: 'relative' }}>
-              <Lock size={18} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#94A3B8' }} />
+              <Lock size={18} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#A89888' }} />
               <input
                 type={showPassword ? 'text' : 'password'}
                 required
@@ -162,10 +162,10 @@ export const LoginPage: React.FC = () => {
                 style={{
                   width: '100%',
                   padding: '0.75rem 2.5rem 0.75rem 2.5rem',
-                  background: '#0F172A',
-                  border: '1.5px solid #334155',
+                  background: '#120D08',
+                  border: '1.5px solid rgba(212, 175, 55, 0.3)',
                   borderRadius: '10px',
-                  color: '#F8FAFC',
+                  color: '#FFFDF5',
                   fontSize: '0.9rem',
                   outline: 'none',
                 }}
@@ -180,7 +180,7 @@ export const LoginPage: React.FC = () => {
                   transform: 'translateY(-50%)',
                   background: 'none',
                   border: 'none',
-                  color: '#94A3B8',
+                  color: '#A89888',
                   cursor: 'pointer',
                 }}
               >
@@ -196,13 +196,13 @@ export const LoginPage: React.FC = () => {
               width: '100%',
               padding: '0.85rem',
               borderRadius: '10px',
-              border: 'none',
-              background: 'linear-gradient(135deg, #0284C7 0%, #0369A1 100%)',
-              color: '#FFFFFF',
+              border: '1px solid rgba(212, 175, 55, 0.5)',
+              background: 'linear-gradient(135deg, #7A1C1C 0%, #521212 100%)',
+              color: '#FFD700',
               fontWeight: 700,
               fontSize: '0.95rem',
               cursor: loading ? 'not-allowed' : 'pointer',
-              boxShadow: '0 8px 20px rgba(2, 132, 199, 0.35)',
+              boxShadow: '0 8px 20px rgba(122, 28, 28, 0.45)',
               transition: 'all 0.2s ease',
             }}
           >
